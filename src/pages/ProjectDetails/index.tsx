@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight, Maximize2, X } from 'lucide-react';
 import { PageTransition } from '../../components/PageTransition/PageTransition';
-import { RevealImage } from '../../components/RevealImage/RevealImage';
+
 import { api } from '../../services/api';
 import { Project } from '../../data/projects';
 
