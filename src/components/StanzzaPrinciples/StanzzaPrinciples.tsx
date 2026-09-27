@@ -9,8 +9,8 @@ export const StanzzaPrinciples: React.FC = () => {
     offset: ['start start', 'end end'],
   });
 
-  // 5 full-screen width cards: shift 80% to reveal all 5 panels
-  const x = useTransform(scrollYProgress, [0, 1], ['0%', '-80%']);
+  // 5 full-screen width cards: transform from 0vw to -400vw so all 5 cards scroll into view
+  const x = useTransform(scrollYProgress, [0, 1], ['0vw', '-400vw']);
 
   const cards = [
     {
@@ -69,8 +69,8 @@ export const StanzzaPrinciples: React.FC = () => {
     <section ref={containerRef} className="relative h-[500vh] bg-[#0d0d0c]">
       <div className="sticky top-0 h-screen w-screen overflow-hidden flex items-center justify-center">
         
-        {/* Horizontal Track for Fullscreen Hero Cards */}
-        <motion.div style={{ x }} className="flex w-full h-full items-center">
+        {/* Horizontal Track for Fullscreen Hero Cards (500vw total width) */}
+        <motion.div style={{ x }} className="flex w-[500vw] h-full items-center">
           
           {/* Intro Hero Card */}
           <div className="w-[95vw] sm:w-[96vw] h-[92vh] shrink-0 mx-[2.5vw] rounded-[40px] bg-[#131e36] text-white p-8 sm:p-16 lg:p-24 flex flex-col justify-between shadow-2xl relative overflow-hidden border border-white/10">
