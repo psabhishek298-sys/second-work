@@ -1,11 +1,7 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useSpring } from 'framer-motion';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import React from 'react';
 import { PageTransition } from '../../components/PageTransition/PageTransition';
 import { RevealImage } from '../../components/RevealImage/RevealImage';
-
-gsap.registerPlugin(ScrollTrigger);
+import ScrollStack, { ScrollStackItem } from '../../components/ui/ScrollStack';
 
 interface StepData {
   number: string;
@@ -90,21 +86,12 @@ const STEPS: StepData[] = [
 ];
 
 export const ProcedurePage: React.FC = () => {
-  const timelineRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: timelineRef,
-    offset: ['start center', 'end center'],
-  });
-
-  const lineHeight = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-
   return (
     <PageTransition>
       {/* ========================================================================= */}
       {/* HERO */}
       {/* ========================================================================= */}
-      <section className="pt-36 sm:pt-48 pb-20 px-6 sm:px-10 lg:px-16 bg-white border-b border-black/5">
+      <section className="pt-36 sm:pt-48 pb-16 px-6 sm:px-10 lg:px-16 bg-white border-b border-black/5">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center gap-3 mb-6">
             <span className="font-mono text-xs tracking-widest text-[#9B9B90] uppercase">
@@ -124,55 +111,54 @@ export const ProcedurePage: React.FC = () => {
       </section>
 
       {/* ========================================================================= */}
-      {/* VERTICAL TIMELINE SECTION */}
+      {/* FULL SCREEN SCROLL STACK PROCEDURE SECTION */}
       {/* ========================================================================= */}
-      <section ref={timelineRef} className="py-24 sm:py-36 px-6 sm:px-10 lg:px-16 bg-white relative">
-        <div className="max-w-7xl mx-auto relative">
-          {/* Center Vertical Connecting Line for Desktop */}
-          <div className="hidden lg:block absolute left-1/2 top-10 bottom-10 w-[2px] bg-black/10 -translate-x-1/2">
-            <motion.div
-              style={{ scaleY: lineHeight }}
-              className="w-full h-full bg-[#141412] origin-top"
-            />
-          </div>
+      <section className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#F9F9F8] min-h-screen">
+        <div className="max-w-7xl mx-auto mb-12">
+          <span className="font-mono text-xs tracking-widest text-[#9B9B90] uppercase block mb-2">
+            STACKED TIMELINE EXPERIENCE
+          </span>
+          <h2 className="font-display text-4xl sm:text-6xl font-medium text-[#141412]">
+            5-Phase Architectural Journey
+          </h2>
+        </div>
 
-          {/* Timeline Steps */}
-          <div className="space-y-24 sm:space-y-36">
-            {STEPS.map((step, index) => {
-              const isEven = index % 2 === 1;
-
-              return (
-                <div
-                  key={step.number}
-                  className={`relative grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center ${
-                    isEven ? 'lg:flex-row-reverse' : ''
-                  }`}
-                >
-                  {/* Text Column */}
-                  <motion.div
-                    initial={{ opacity: 0, x: isEven ? 40 : -40 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: '-15% 0px' }}
-                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                    className={`lg:col-span-6 space-y-6 ${
-                      isEven ? 'lg:order-2 lg:pl-8' : 'lg:order-1 lg:pr-8'
-                    }`}
-                  >
+        <div className="w-full">
+          <ScrollStack
+            itemDistance={60}
+            itemScale={0.035}
+            itemStackDistance={35}
+            stackPosition="15%"
+            scaleEndPosition="5%"
+            baseScale={0.88}
+            rotationAmount={0}
+            blurAmount={1.5}
+            useWindowScroll={true}
+            className="w-full"
+          >
+            {STEPS.map((step) => (
+              <ScrollStackItem
+                key={step.number}
+                itemClassName="bg-white border border-black/10 shadow-2xl rounded-3xl overflow-hidden p-6 sm:p-10 lg:p-12"
+              >
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+                  {/* Content Column */}
+                  <div className="lg:col-span-7 space-y-6">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-[#141412] text-white flex items-center justify-center font-mono text-sm font-bold shadow-md">
+                      <div className="w-12 h-12 rounded-xl bg-[#141412] text-white flex items-center justify-center font-mono text-base font-bold shadow-md">
                         {step.number}
                       </div>
                       <div>
-                        <span className="font-mono text-xs tracking-widest text-[#9B9B90] uppercase block">
+                        <span className="font-mono text-xs tracking-widest text-[#9B9B90] uppercase block font-semibold">
                           PHASE {step.number}
                         </span>
-                        <h2 className="font-display text-3xl sm:text-4xl font-normal text-[#141412]">
+                        <h3 className="font-display text-3xl sm:text-4xl font-medium text-[#141412]">
                           {step.title}
-                        </h2>
+                        </h3>
                       </div>
                     </div>
 
-                    <p className="font-editorial text-xl sm:text-2xl text-[#141412] italic">
+                    <p className="font-editorial text-lg sm:text-xl text-[#141412] italic">
                       &ldquo;{step.subtitle}&rdquo;
                     </p>
 
@@ -180,11 +166,11 @@ export const ProcedurePage: React.FC = () => {
                       {step.description}
                     </p>
 
-                    <div className="p-6 rounded-xl bg-neutral-50 border border-black/5 space-y-3">
-                      <span className="font-mono text-[11px] tracking-widest text-[#9B9B90] uppercase block font-semibold">
+                    <div className="p-5 sm:p-6 rounded-2xl bg-neutral-50 border border-black/5 space-y-3">
+                      <span className="font-mono text-xs tracking-widest text-[#9B9B90] uppercase block font-semibold">
                         KEY DELIVERABLES &amp; ACTIONS:
                       </span>
-                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs font-mono text-[#484842]">
+                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm font-mono text-[#484842]">
                         {step.deliverables.map((item, idx) => (
                           <li key={idx} className="flex items-start gap-2">
                             <span className="text-[#141412] font-bold">&bull;</span>
@@ -193,38 +179,28 @@ export const ProcedurePage: React.FC = () => {
                         ))}
                       </ul>
                     </div>
-                  </motion.div>
+                  </div>
 
                   {/* Image Column */}
-                  <motion.div
-                    initial={{ opacity: 0, x: isEven ? -40 : 40 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: '-15% 0px' }}
-                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                    className={`lg:col-span-6 ${
-                      isEven ? 'lg:order-1' : 'lg:order-2'
-                    }`}
-                  >
-                    <div className="relative group">
+                  <div className="lg:col-span-5 hidden sm:block">
+                    <div className="relative rounded-2xl overflow-hidden border border-black/5 shadow-md">
                       <RevealImage
                         src={step.image}
                         alt={`${step.title} - Architectural Phase`}
-                        aspectRatio="aspect-[4/3] sm:aspect-[16/11]"
+                        aspectRatio="aspect-[4/3]"
                         clipReveal={true}
                       />
-                      <div className="absolute top-4 right-4 z-10 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md text-xs font-mono text-[#141412] shadow-sm">
+                      <div className="absolute top-4 right-4 z-10 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-xs font-mono text-[#141412] shadow-sm">
                         STAGE {step.number} / 05
                       </div>
                     </div>
-                  </motion.div>
+                  </div>
                 </div>
-              );
-            })}
-          </div>
+              </ScrollStackItem>
+            ))}
+          </ScrollStack>
         </div>
       </section>
-
-
     </PageTransition>
   );
 };

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
+import JellyRadio from '../ui/JellyRadio';
 
 interface NavItem {
   label: string;
@@ -21,9 +22,15 @@ export const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const isDarkHeroPage = location.pathname === '/' || location.pathname.startsWith('/portfolio/');
   const isLightNav = !isScrolled && isDarkHeroPage;
+
+  const currentPath =
+    location.pathname === '/'
+      ? '/'
+      : NAV_ITEMS.find(it => it.path !== '/' && location.pathname.startsWith(it.path))?.path || '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -73,42 +80,28 @@ export const Navbar: React.FC = () => {
             </span>
           </Link>
 
-          {/* Desktop Links */}
-          <nav className="hidden md:flex items-center gap-8">
-            {NAV_ITEMS.map((item) => {
-              const isActive =
-                item.path === '/'
-                  ? location.pathname === '/'
-                  : location.pathname.startsWith(item.path);
-
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`text-xs font-mono tracking-widest uppercase transition-colors relative py-1 ${
-                    isActive
-                      ? isLightNav
-                        ? 'text-white font-semibold'
-                        : 'text-black font-semibold'
-                      : isLightNav
-                      ? 'text-white/80 hover:text-white'
-                      : 'text-neutral-600 hover:text-black'
-                  }`}
-                >
-                  {item.label}
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeUnderline"
-                      className={`absolute bottom-0 left-0 right-0 h-[2px] ${
-                        isLightNav ? 'bg-white' : 'bg-black'
-                      }`}
-                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                    />
-                  )}
-                </Link>
-              );
-            })}
-          </nav>
+          {/* Desktop Links with JellyRadio */}
+          <div className="hidden md:flex items-center">
+            <JellyRadio
+              items={NAV_ITEMS.map(item => ({
+                value: item.path,
+                label: item.label
+              }))}
+              value={currentPath}
+              onChange={val => navigate(val)}
+              chipColor={isLightNav ? 'rgba(255, 255, 255, 0.12)' : 'rgba(0, 0, 0, 0.05)'}
+              activeColor={isLightNav ? '#ffffff' : '#18181b'}
+              textColor={isLightNav ? '#e4e4e7' : '#52525b'}
+              activeTextColor={isLightNav ? '#18181b' : '#ffffff'}
+              size="sm"
+              gap={6}
+              radius={18}
+              swell={0.18}
+              barge={5}
+              stiffness={580}
+              ariaLabel="Main Navigation"
+            />
+          </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
