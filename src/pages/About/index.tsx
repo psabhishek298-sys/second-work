@@ -3,6 +3,7 @@ import { useInView } from 'framer-motion';
 import { Award } from 'lucide-react';
 import { PageTransition } from '../../components/PageTransition/PageTransition';
 import { RevealImage } from '../../components/RevealImage/RevealImage';
+import FlowingMenu from '../../components/FlowingMenu/FlowingMenu';
 
 function CounterNumber({ target, suffix = '+' }: { target: number; suffix?: string }) {
   const [count, setCount] = useState(0);
@@ -229,23 +230,19 @@ export const AboutPage: React.FC = () => {
             </span>
           </div>
 
-          <div className="divide-y divide-black/10">
-            {awards.map((award, i) => (
-              <div
-                key={i}
-                className="py-6 grid grid-cols-1 md:grid-cols-12 gap-4 items-center hover:bg-black/[0.02] px-2 rounded-lg transition-colors"
-              >
-                <div className="md:col-span-2 font-mono text-sm text-[#9B9B90] font-bold">
-                  {award.year}
-                </div>
-                <div className="md:col-span-7 font-display text-xl sm:text-2xl text-[#141412]">
-                  {award.title}
-                </div>
-                <div className="md:col-span-3 text-right font-mono text-xs text-[#6E6E65] uppercase">
-                  {award.project}
-                </div>
-              </div>
-            ))}
+          <div style={{ height: '500px', position: 'relative' }}>
+            <FlowingMenu 
+              items={awards.map((a, idx) => ({
+                link: '#', 
+                text: a.title, 
+                image: idx % 2 === 0 ? 'https://images.unsplash.com/photo-1782977389500-dd7adad33ebe?q=80&w=600&h=400&fit=crop&sat=-100&auto=format' : 'https://images.unsplash.com/photo-1781499455083-6ccc3beb20cd?q=80&w=600&h=400&fit=crop&sat=-100&auto=format'
+              }))}
+              bgColor="transparent"
+              textColor="#141412"
+              marqueeBgColor="#141412"
+              marqueeTextColor="#fff"
+              borderColor="rgba(0,0,0,0.1)"
+            />
           </div>
         </div>
       </section>

@@ -17,10 +17,6 @@ import { Project } from '../../data/projects';
 gsap.registerPlugin(ScrollTrigger);
 
 export const HomePage: React.FC = () => {
-  const heroImages = [
-    '/photos/pchero.png',
-  ];
-  const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
   const [featuredProjects, setFeaturedProjects] = useState<Project[]>([]);
   const heroRef = useRef<HTMLDivElement>(null);
   const statementRef = useRef<HTMLDivElement>(null);
@@ -28,10 +24,15 @@ export const HomePage: React.FC = () => {
 
   const { scrollYProgress } = useScroll({
     target: heroRef,
-    offset: ['start start', 'end start'],
+    offset: ['start start', 'end end'],
   });
 
-  const heroImageScale = useTransform(scrollYProgress, [0, 1], [1, 1.15]);
+  // Clip path animation like fluid.glass/approach: reveals from bottom to top
+  const clipPathVal = useTransform(
+    scrollYProgress,
+    [0, 1],
+    ['inset(100% 0% 0% 0%)', 'inset(0% 0% 0% 0%)']
+  );
 
   useEffect(() => {
     // Fetch featured projects
@@ -39,14 +40,6 @@ export const HomePage: React.FC = () => {
       setFeaturedProjects(projects.slice(0, 4));
     });
   }, []);
-
-  // Image slider interval
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, [heroImages.length]);
 
   // GSAP ScrollTrigger statement animation
   useEffect(() => {
@@ -79,37 +72,34 @@ export const HomePage: React.FC = () => {
   return (
     <PageTransition>
       {/* ========================================================================= */}
-      {/* HERO SECTION (Clean full-screen visual showcase, 100vh) */}
+      {/* HERO SECTION (fluid.glass/approach style sticky clip-path scroll reveal) */}
       {/* ========================================================================= */}
       <section
         ref={heroRef}
-        className="relative h-screen w-full overflow-hidden bg-black"
+        className="relative h-[250vh] w-full bg-black"
       >
-        {/* Fullscreen Hero Image with Subtle Zoom */}
-        <AnimatePresence>
-          <motion.div
-            key={currentHeroIndex}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.5, ease: 'easeInOut' }}
-            style={{ scale: heroImageScale }}
-            className="absolute inset-0 w-full h-full origin-center"
-          >
-            {/* Mobile Hero Image */}
+        <div className="sticky top-0 h-screen w-full overflow-hidden">
+          {/* Base First Image: pcherp1.png */}
+          <div className="absolute inset-0 w-full h-full">
             <img
-              src="/photos/mobilehero.png"
-              alt="TechPlus Architecture Hero Mobile"
-              className="w-full h-full object-cover object-center sm:hidden"
+              src="/photos/pcherp1.png"
+              alt="TechPlus Architecture Hero Initial"
+              className="w-full h-full object-cover object-center"
             />
-            {/* Desktop Hero Image */}
+          </div>
+
+          {/* Overlapping Second Image: pchero.jpg with clip-path reveal from bottom */}
+          <motion.div
+            style={{ clipPath: clipPathVal }}
+            className="absolute inset-0 w-full h-full z-10"
+          >
             <img
-              src={heroImages[currentHeroIndex]}
-              alt="TechPlus Architecture Hero"
-              className="w-full h-full object-cover object-center hidden sm:block"
+              src="/photos/pchero.jpg"
+              alt="TechPlus Architecture Hero Reveal"
+              className="w-full h-full object-cover object-center"
             />
           </motion.div>
-        </AnimatePresence>
+        </div>
       </section>
 
       {/* ========================================================================= */}
