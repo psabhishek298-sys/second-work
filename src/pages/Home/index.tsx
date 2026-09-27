@@ -18,7 +18,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export const HomePage: React.FC = () => {
   const heroImages = [
-    '/photos/imgi_5_baner5.jpg',
+    '/photos/pchero.png',
   ];
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
   const [featuredProjects, setFeaturedProjects] = useState<Project[]>([]);

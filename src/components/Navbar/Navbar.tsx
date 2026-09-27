@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import JellyRadio from '../ui/JellyRadio';
+import { AnimatedLogo } from '../ui/AnimatedLogo';
 
 interface NavItem {
   label: string;
@@ -74,10 +75,7 @@ export const Navbar: React.FC = () => {
             to="/"
             className="flex items-center gap-2 transition-opacity hover:opacity-80"
           >
-            <div className={`w-2.5 h-2.5 ${isLightNav ? 'bg-white' : 'bg-black'}`} />
-            <span className="font-mono text-base tracking-[0.25em] font-bold uppercase">
-              TECHPLUS
-            </span>
+            <AnimatedLogo isLight={isLightNav} />
           </Link>
 
           {/* Desktop Links with JellyRadio */}
