@@ -9,12 +9,8 @@ export const StanzzaPrinciples: React.FC = () => {
     offset: ['start start', 'end end'],
   });
 
-  // 5 full-screen width cards: clamp at -388vw so Card 4 stays locked on screen without revealing blank space
-  const x = useTransform(
-    scrollYProgress,
-    [0, 0.88, 1],
-    ['0vw', '-388vw', '-388vw']
-  );
+  // 5 full-screen width cards: transform from 0vw to -400vw so all 5 cards scroll into view
+  const x = useTransform(scrollYProgress, [0, 1], ['0vw', '-400vw']);
 
   const cards = [
     {

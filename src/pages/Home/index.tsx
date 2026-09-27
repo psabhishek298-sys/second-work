@@ -10,7 +10,6 @@ import { MagneticButton } from '../../components/MagneticButton/MagneticButton';
 import { RevealImage } from '../../components/RevealImage/RevealImage';
 import { ProjectCard } from '../../components/ProjectCard/ProjectCard';
 import { Testimonials } from '../../components/Testimonials/Testimonials';
-import { StanzzaPrinciples } from '../../components/StanzzaPrinciples/StanzzaPrinciples';
 import { LogoLoop } from '../../components/ui/LogoLoop';
 import { api } from '../../services/api';
 import { Project } from '../../data/projects';
@@ -263,9 +262,76 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* ========================================================================= */}
-      {/* SECTION 4: STANZZA STYLE HORIZONTAL SCROLL PRINCIPLES */}
+      {/* SECTION 4: FOUR PILLARS / METHODOLOGY */}
       {/* ========================================================================= */}
-      <StanzzaPrinciples />
+      <section className="py-24 sm:py-32 px-6 sm:px-10 lg:px-16 bg-white border-t border-black/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-3xl mb-16">
+            <span className="font-mono text-xs tracking-widest text-[#9B9B90] uppercase block mb-2">
+              04 / ARCHITECTURAL PRINCIPLES
+            </span>
+            <h2 className="font-display text-3xl sm:text-5xl font-normal tracking-tight text-[#141412]">
+              Crafting timeless built environments with rigor and sensitivity.
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {[
+              {
+                icon: Compass,
+                number: '01',
+                title: 'Site Specificity',
+                desc: 'Every project begins with deep listening to solar trajectories, wind paths, topography, and native ecology.',
+              },
+              {
+                icon: Layers,
+                number: '02',
+                title: 'Tectonic Clarity',
+                desc: 'Structures are designed with straightforward joints, honest load-bearing systems, and authentic raw materials.',
+              },
+              {
+                icon: Sparkles,
+                number: '03',
+                title: 'Sensory Atmosphere',
+                desc: 'We sculpt with indirect daylight, air currents, water acoustics, and tactile textures that age gracefully.',
+              },
+              {
+                icon: ShieldCheck,
+                number: '04',
+                title: 'Sustainable Longevity',
+                desc: 'Passive climate control and durable local construction ensure buildings endure for generations.',
+              },
+            ].map((pillar, i) => {
+              const Icon = pillar.icon;
+              return (
+                <motion.div
+                  key={pillar.number}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
+                  className="p-8 rounded-2xl bg-white border border-neutral-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col justify-between hover:shadow-xl hover:border-neutral-300 transition-all"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="w-10 h-10 rounded-lg bg-neutral-100 flex items-center justify-center text-[#141412]">
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <span className="font-mono text-xs text-[#9B9B90] font-bold">{pillar.number}</span>
+                    </div>
+                    <h3 className="font-display text-2xl font-medium text-[#141412] mb-3">
+                      {pillar.title}
+                    </h3>
+                    <p className="text-xs text-[#6E6E65] leading-relaxed">
+                      {pillar.desc}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
 
       {/* ========================================================================= */}
       {/* SECTION 5: CLIENT TESTIMONIALS (Infinite Columns Animated Stream) */}
