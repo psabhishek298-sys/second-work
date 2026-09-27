@@ -18,11 +18,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export const HomePage: React.FC = () => {
   const heroImages = [
-    '/photos/imgi_2_baner9.jpg',
-    '/photos/imgi_3_baner10.jpg',
-    '/photos/imgi_6_baner6.jpg',
-    '/photos/imgi_7_baner3.jpg',
-    '/photos/imgi_8_baner4.jpg',
+    '/photos/imgi_5_baner5.jpg',
   ];
   const [currentHeroIndex, setCurrentHeroIndex] = useState(0);
   const [featuredProjects, setFeaturedProjects] = useState<Project[]>([]);
@@ -100,10 +96,17 @@ export const HomePage: React.FC = () => {
             style={{ scale: heroImageScale }}
             className="absolute inset-0 w-full h-full origin-center"
           >
+            {/* Mobile Hero Image */}
+            <img
+              src="/photos/mobilehero.png"
+              alt="TechPlus Architecture Hero Mobile"
+              className="w-full h-full object-cover object-center sm:hidden"
+            />
+            {/* Desktop Hero Image */}
             <img
               src={heroImages[currentHeroIndex]}
               alt="TechPlus Architecture Hero"
-              className="w-full h-full object-cover object-center"
+              className="w-full h-full object-cover object-center hidden sm:block"
             />
           </motion.div>
         </AnimatePresence>
