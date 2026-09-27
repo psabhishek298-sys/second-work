@@ -66,7 +66,7 @@ export const StanzzaPrinciples: React.FC = () => {
   ];
 
   return (
-    <section ref={containerRef} className="relative h-[500vh] bg-[#0d0d0c]">
+    <section ref={containerRef} className="relative h-[380vh] bg-[#0d0d0c]">
       <div className="sticky top-0 h-screen w-screen overflow-hidden flex items-center justify-center">
         
         {/* Horizontal Track for Fullscreen Hero Cards (500vw total width) */}
