@@ -11,6 +11,7 @@ import { RevealImage } from '../../components/RevealImage/RevealImage';
 import { ProjectCard } from '../../components/ProjectCard/ProjectCard';
 import { Testimonials } from '../../components/Testimonials/Testimonials';
 import { LogoLoop } from '../../components/ui/LogoLoop';
+import ScrollExpand from '../../components/ui/ScrollExpand';
 import { api } from '../../services/api';
 import { Project } from '../../data/projects';
 
@@ -105,11 +106,14 @@ export const HomePage: React.FC = () => {
       {/* ========================================================================= */}
       {/* SECTION 1: SCROLL STATEMENT (GSAP ScrollTrigger animated) */}
       {/* ========================================================================= */}
+      {/* ========================================================================= */}
+      {/* SECTION 1: SCROLL STATEMENT (GSAP ScrollTrigger animated) */}
+      {/* ========================================================================= */}
       <section
         ref={statementRef}
-        className="py-28 sm:py-40 px-6 sm:px-10 lg:px-16 bg-white text-[#141412] border-b border-black/5"
+        className="py-28 sm:py-40 px-8 sm:px-12 lg:px-20 bg-white text-[#141412] border-b border-black/5"
       >
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-[1550px] mx-auto">
           <div className="flex items-center gap-3 mb-8">
             <span className="font-mono text-xs tracking-widest text-[#9B9B90] uppercase">01 / MANIFESTO</span>
             <div className="h-[1px] w-12 bg-black/15" />
@@ -154,9 +158,9 @@ export const HomePage: React.FC = () => {
       {/* ========================================================================= */}
       <section
         ref={clipSectionRef}
-        className="py-24 sm:py-36 px-6 sm:px-10 lg:px-16 bg-white text-[#141412] border-b border-black/5 relative overflow-hidden"
+        className="py-24 sm:py-36 px-8 sm:px-12 lg:px-20 bg-white text-[#141412] border-b border-black/5 relative overflow-hidden"
       >
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <div className="max-w-[1550px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left Column: Image with clip path */}
           <div className="lg:col-span-7">
             <div className="relative group">
@@ -208,10 +212,37 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* ========================================================================= */}
+      {/* SCROLL EXPAND SECTION */}
+      {/* ========================================================================= */}
+      <section className="relative w-full bg-white">
+        <ScrollExpand
+          src="/photos/pchero.jpg"
+          alt="Architectural Excellence"
+          title="Built to Scale"
+          scrollHint="Scroll to expand"
+          scrollDistance={1.5}
+          holdDistance={0.5}
+          useWindowScroll
+        >
+          <div className="max-w-2xl text-center px-4">
+            <span className="font-mono text-xs tracking-widest text-white/70 uppercase block mb-3">
+              CRAFT & PRECISION
+            </span>
+            <h2 className="font-display text-4xl sm:text-6xl font-medium text-white mb-4">
+              Every detail, everywhere
+            </h2>
+            <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed">
+              The frame opens up as you scroll and hands the whole stage to your media.
+            </p>
+          </div>
+        </ScrollExpand>
+      </section>
+
+      {/* ========================================================================= */}
       {/* SECTION 3: FEATURED PROJECTS */}
       {/* ========================================================================= */}
-      <section className="py-24 sm:py-36 px-6 sm:px-10 lg:px-16 bg-white">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-24 sm:py-36 px-8 sm:px-12 lg:px-20 bg-white">
+        <div className="max-w-[1550px] mx-auto">
           {/* Section Header */}
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 pb-6 border-b border-black/10 gap-6">
             <div>
@@ -264,18 +295,37 @@ export const HomePage: React.FC = () => {
       {/* ========================================================================= */}
       {/* SECTION 4: FOUR PILLARS / METHODOLOGY */}
       {/* ========================================================================= */}
-      <section className="py-24 sm:py-32 px-6 sm:px-10 lg:px-16 bg-white border-t border-black/5">
-        <div className="max-w-7xl mx-auto">
-          <div className="max-w-3xl mb-16">
-            <span className="font-mono text-xs tracking-widest text-[#9B9B90] uppercase block mb-2">
-              04 / ARCHITECTURAL PRINCIPLES
-            </span>
-            <h2 className="font-display text-3xl sm:text-5xl font-normal tracking-tight text-[#141412]">
-              Crafting timeless built environments with rigor and sensitivity.
+      <section className="relative py-28 sm:py-36 px-8 sm:px-12 lg:px-20 bg-[#F5F4F0] overflow-hidden">
+        {/* Background Image: principles_bg.jpg */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+          <img
+            src="/photos/principles_bg.jpg"
+            alt="TechPlus Architecture Curved Villa"
+            className="absolute right-0 top-0 h-full w-full object-cover object-right-top opacity-95"
+          />
+          {/* Left blend gradient */}
+          <div className="absolute inset-y-0 left-0 w-full lg:w-[60%] bg-gradient-to-r from-[#F5F4F0] via-[#F5F4F0]/90 to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#F5F4F0] to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#F5F4F0] to-transparent" />
+        </div>
+
+        <div className="max-w-[1550px] mx-auto relative z-10 space-y-16">
+          <div className="max-w-3xl space-y-6">
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-xs tracking-widest text-[#73736C] uppercase font-medium">
+                04 / ARCHITECTURAL PRINCIPLES
+              </span>
+              <div className="h-[1px] w-12 bg-[#141412]/30" />
+            </div>
+
+            <h2 className="font-display tracking-tight text-black text-4xl sm:text-6xl font-light leading-[1.05]">
+              <span className="font-semibold block mb-1">Crafting timeless built</span>
+              <span className="font-semibold block mb-1">environments with rigor and</span>
+              <span className="font-serif italic font-normal text-[#8A8980] block">sensitivity.</span>
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
                 icon: Compass,
@@ -310,19 +360,19 @@ export const HomePage: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: i * 0.1 }}
-                  className="p-8 rounded-2xl bg-white border border-neutral-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex flex-col justify-between hover:shadow-xl hover:border-neutral-300 transition-all"
+                  className="p-8 rounded-3xl bg-[#F5F4F0]/85 backdrop-blur-xl border border-white/80 shadow-xl flex flex-col justify-between hover:shadow-2xl hover:scale-[1.02] transition-all min-h-[240px]"
                 >
                   <div>
                     <div className="flex items-center justify-between mb-6">
-                      <div className="w-10 h-10 rounded-lg bg-neutral-100 flex items-center justify-center text-[#141412]">
-                        <Icon className="w-5 h-5" />
+                      <div className="w-10 h-10 rounded-xl bg-black/5 flex items-center justify-center text-[#141412]">
+                        <Icon className="w-5 h-5 text-[#141412]" />
                       </div>
-                      <span className="font-mono text-xs text-[#9B9B90] font-bold">{pillar.number}</span>
+                      <span className="font-mono text-xs text-[#73736C] font-semibold">{pillar.number}</span>
                     </div>
                     <h3 className="font-display text-2xl font-medium text-[#141412] mb-3">
                       {pillar.title}
                     </h3>
-                    <p className="text-xs text-[#6E6E65] leading-relaxed">
+                    <p className="text-xs text-[#6E6E65] leading-relaxed font-light">
                       {pillar.desc}
                     </p>
                   </div>

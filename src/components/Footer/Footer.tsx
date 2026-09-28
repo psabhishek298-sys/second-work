@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, ArrowUp } from 'lucide-react';
+import { ArrowUpRight, ArrowRight, ArrowUp, MapPin, Instagram, Linkedin, Dribbble } from 'lucide-react';
+import { SiBehance, SiPinterest } from 'react-icons/si';
 
 export const Footer: React.FC = () => {
   const [time, setTime] = useState<string>('');
@@ -29,31 +30,52 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-white text-black pt-8 sm:pt-10 pb-6 px-6 sm:px-10 lg:px-16 border-t border-black/10">
-      <div className="max-w-7xl mx-auto">
-        {/* Studio Details & Links */}
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 pb-8 border-b border-black/10 text-sm">
-          {/* Brand Manifesto */}
-          <div className="col-span-2 space-y-4">
-            <div className="flex items-center gap-2">
-              <div className="w-2.5 h-2.5 rounded-[2px] bg-black" />
-              <span className="font-mono text-sm tracking-[0.25em] font-bold text-black uppercase">
+    <footer className="relative bg-[#F5F4F0] text-[#141412] pt-20 pb-8 px-6 sm:px-10 lg:px-16 overflow-hidden border-t border-black/10">
+      {/* Background Image: portimg.png / Villa infinity pool */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        <img
+          src="/photos/portimg.png"
+          alt="TechPlus Architectural Sunset Villa"
+          className="absolute right-0 top-0 h-full w-full object-cover object-right-bottom opacity-45"
+        />
+        {/* Soft gradient fade overlay for maximum text readability */}
+        <div className="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-[#F5F4F0] via-[#F5F4F0]/95 to-[#F5F4F0]/70" />
+        <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#F5F4F0] to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-[#F5F4F0] to-transparent" />
+      </div>
+
+      <div className="max-w-[1550px] mx-auto relative z-10">
+        {/* Main Footer Columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-16 border-b border-black/15 items-start">
+          
+          {/* Column 1: Brand Info & Live Studio Clock */}
+          <div className="lg:col-span-4 space-y-6">
+            <div className="flex items-center gap-3">
+              <div className="w-6 h-6 border-2 border-black flex items-center justify-center font-mono text-xs font-bold text-black bg-white/80">
+                +
+              </div>
+              <span className="font-display tracking-widest text-xl font-bold uppercase text-black">
                 TECHPLUS
               </span>
             </div>
-            <p className="text-neutral-600 text-sm leading-relaxed max-w-sm font-sans">
+
+            <p className="text-sm text-[#2A2A26] font-normal max-w-sm leading-relaxed">
               Architecture shaped around people, place and purpose. An international design atelier focused on contextual, sustainable and sensory environments.
             </p>
-            <div className="pt-2 flex items-center gap-3 text-xs font-mono text-neutral-500">
+
+            <div className="pt-2 flex items-center gap-3 font-mono text-xs text-[#141412] bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-black/15 w-fit shadow-sm">
               <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>STUDIO TIME (IST): {time || '18:30:00'}</span>
+              <span className="font-medium">STUDIO TIME (IST)</span>
+              <span className="text-black font-bold pl-2 border-l border-black/20">{time || '22:25:41'}</span>
             </div>
           </div>
 
-          {/* Navigation Links */}
-          <div className="space-y-3">
-            <p className="font-mono text-xs tracking-widest text-neutral-400 font-semibold uppercase">EXPLORE</p>
-            <ul className="space-y-2.5">
+          {/* Column 2: Explore Navigation Links */}
+          <div className="lg:col-span-3 space-y-4">
+            <span className="font-mono text-xs tracking-widest text-[#141412] uppercase block font-bold bg-white/60 backdrop-blur-sm px-3 py-1 rounded-md w-fit border border-black/10">
+              EXPLORE
+            </span>
+            <ul className="space-y-3 font-sans text-sm pt-1">
               {[
                 { label: 'Home', path: '/' },
                 { label: 'About Studio', path: '/about' },
@@ -64,71 +86,84 @@ export const Footer: React.FC = () => {
                 <li key={link.path}>
                   <Link
                     to={link.path}
-                    className="text-neutral-700 hover:text-black transition-colors text-sm"
+                    className="group inline-flex items-center gap-2 text-[#141412] hover:text-black transition-colors font-semibold text-sm"
                   >
-                    {link.label}
+                    <span>{link.label}</span>
+                    <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-black" />
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Studios / Locations */}
-          <div className="space-y-3">
-            <p className="font-mono text-xs tracking-widest text-neutral-400 font-semibold uppercase">STUDIOS</p>
-            <div className="space-y-4 text-xs text-neutral-700">
-              <div>
-                <p className="text-black font-medium">Kerala (HQ)</p>
-                <p className="text-neutral-500">Studio 04, Panampilly Nagar, Kochi</p>
+          {/* Column 3: Studios / Locations */}
+          <div className="lg:col-span-3 space-y-4">
+            <span className="font-mono text-xs tracking-widest text-[#141412] uppercase block font-bold bg-white/60 backdrop-blur-sm px-3 py-1 rounded-md w-fit border border-black/10">
+              STUDIOS
+            </span>
+            <div className="space-y-5 text-xs text-[#2A2A26] pt-1">
+              <div className="flex items-start gap-2.5">
+                <MapPin className="w-4 h-4 text-black mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="text-black font-bold text-sm">Kerala (HQ)</p>
+                  <p className="text-[#3A3A35] font-medium">Studio 04, Panampilly Nagar,<br />Kochi, India</p>
+                </div>
               </div>
-              <div>
-                <p className="text-black font-medium">Bangalore</p>
-                <p className="text-neutral-500">The Mill, Indiranagar</p>
+
+              <div className="flex items-start gap-2.5 pt-1">
+                <MapPin className="w-4 h-4 text-black mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="text-black font-bold text-sm">Bangalore</p>
+                  <p className="text-[#3A3A35] font-medium">The Mill, Indiranagar,<br />Bangalore, India</p>
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Social Links */}
-          <div className="space-y-3">
-            <p className="font-mono text-xs tracking-widest text-neutral-400 font-semibold uppercase">CONNECT</p>
-            <ul className="space-y-2.5 text-sm">
+          {/* Column 4: Connect / Social */}
+          <div className="lg:col-span-2 space-y-4">
+            <span className="font-mono text-xs tracking-widest text-[#141412] uppercase block font-bold bg-white/60 backdrop-blur-sm px-3 py-1 rounded-md w-fit border border-black/10">
+              CONNECT
+            </span>
+            <ul className="space-y-3 text-sm pt-1">
               {[
-                { name: 'Instagram', url: 'https://instagram.com' },
-                { name: 'LinkedIn', url: 'https://linkedin.com' },
-                { name: 'Behance', url: 'https://behance.net' },
-                { name: 'Pinterest', url: 'https://pinterest.com' },
-              ].map((social) => (
-                <li key={social.name}>
-                  <a
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-neutral-700 hover:text-black transition-colors inline-flex items-center gap-1.5"
-                  >
-                    {social.name}
-                    <ArrowUpRight className="w-3.5 h-3.5 text-neutral-400" />
-                  </a>
-                </li>
-              ))}
+                { name: 'Instagram', icon: Instagram, url: 'https://instagram.com' },
+                { name: 'LinkedIn', icon: Linkedin, url: 'https://linkedin.com' },
+                { name: 'Behance', icon: SiBehance, url: 'https://behance.net' },
+                { name: 'Pinterest', icon: SiPinterest, url: 'https://pinterest.com' },
+              ].map((social) => {
+                const Icon = social.icon;
+                return (
+                  <li key={social.name}>
+                    <a
+                      href={social.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group text-[#141412] hover:text-black transition-colors inline-flex items-center gap-2 font-semibold text-sm"
+                    >
+                      <Icon className="w-3.5 h-3.5 text-[#141412] group-hover:text-black transition-colors" />
+                      <span>{social.name}</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 text-[#141412] group-hover:text-black transition-colors" />
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
           </div>
+
         </div>
 
-        {/* Bottom Section: Copyright & Back to Top */}
-        <div className="pt-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono text-neutral-500">
-          <div>
-            &copy; 2026 TechPlus Architectural Studio. All rights reserved.
-          </div>
+        {/* Bottom Bar: Copyright & Back to Top */}
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-[#141412] font-semibold gap-4">
+          <span>&copy; 2026 TechPlus Architectural Studio. All rights reserved.</span>
 
-          <div className="flex items-center gap-6">
-            <button
-              onClick={scrollToTop}
-              className="inline-flex items-center gap-2 hover:text-black transition-colors uppercase tracking-wider"
-            >
-              Back to Top
-              <ArrowUp className="w-3.5 h-3.5" />
-            </button>
-          </div>
+          <button
+            onClick={scrollToTop}
+            className="inline-flex items-center gap-2 text-black hover:opacity-75 transition-opacity uppercase tracking-widest font-bold"
+          >
+            <span>BACK TO TOP</span>
+            <ArrowUp className="w-3.5 h-3.5" />
+          </button>
         </div>
       </div>
     </footer>

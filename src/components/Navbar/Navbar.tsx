@@ -61,12 +61,12 @@ export const Navbar: React.FC = () => {
     <>
       {/* Transparent Floating Navigation */}
       <header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent ${
           isScrolled
-            ? 'bg-white/85 backdrop-blur-md border-b border-black/5 py-3.5 px-6 sm:px-10 lg:px-16 text-black'
+            ? 'py-3.5 px-6 sm:px-10 lg:px-16 text-black'
             : isLightNav
-            ? 'bg-gradient-to-b from-black/50 via-black/20 to-transparent py-6 px-6 sm:px-10 lg:px-16 text-white'
-            : 'bg-transparent py-6 px-6 sm:px-10 lg:px-16 text-black'
+            ? 'py-6 px-6 sm:px-10 lg:px-16 text-white'
+            : 'py-6 px-6 sm:px-10 lg:px-16 text-black'
         }`}
       >
         <div className="max-w-7xl mx-auto flex items-center justify-between">

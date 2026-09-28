@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useInView } from 'framer-motion';
-import { Award } from 'lucide-react';
+import { ArrowRight, ArrowUpRight, Instagram, Linkedin, Dribbble, ArrowUp } from 'lucide-react';
 import { PageTransition } from '../../components/PageTransition/PageTransition';
-import { RevealImage } from '../../components/RevealImage/RevealImage';
-import FlowingMenu from '../../components/FlowingMenu/FlowingMenu';
 
 function CounterNumber({ target, suffix = '+' }: { target: number; suffix?: string }) {
   const [count, setCount] = useState(0);
@@ -28,226 +27,313 @@ function CounterNumber({ target, suffix = '+' }: { target: number; suffix?: stri
   }, [isInView, target]);
 
   return (
-    <span ref={ref} className="font-display font-light text-5xl sm:text-7xl lg:text-8xl tracking-tight text-white">
+    <span ref={ref} className="font-display font-light text-5xl sm:text-6xl lg:text-7xl tracking-tight text-white">
       {count}
-      <span className="text-3xl sm:text-5xl text-[#9B9B90]">{suffix}</span>
+      <span className="text-3xl sm:text-4xl text-[#A89F91]">{suffix}</span>
     </span>
   );
 }
 
 export const AboutPage: React.FC = () => {
-  const teamMembers = [
-    {
-      name: 'Ar. Rohan Varma',
-      role: 'Founder & Principal Architect',
-      credentials: 'B.Arch (SPA), M.Arch (AA London), IIA',
-      image: '/photos/imgi_4_project1.jpg',
-      bio: 'Leading the spatial philosophy of TechPlus with 16+ years of international practice in vernacular sustainability and monolithic forms.',
-    },
-    {
-      name: 'Maya Nair',
-      role: 'Partner & Design Director',
-      credentials: 'B.Arch (CEPT), M.Des (Harvard GSD)',
-      image: '/photos/imgi_10_project3.jpg',
-      bio: 'Directs interior architecture and material research, specializing in acoustic atmospheres and tactile surface finishes.',
-    },
-    {
-      name: 'Devan Menon',
-      role: 'Head of Technical & Structural Execution',
-      credentials: 'B.Tech Civil, M.Sc Facade Engineering',
-      image: '/photos/imgi_11_project4.jpg',
-      bio: 'Oversees structural realization, complex cantilevers, climatic thermal modeling, and on-site craftsmanship.',
-    },
-    {
-      name: 'Aisha Rao',
-      role: 'Senior Landscape Architect',
-      credentials: 'MLA (NUS Singapore)',
-      image: '/photos/imgi_14_project7.jpg',
-      bio: 'Pioneers native tropical biophilic ecosystems, courtyards, rain gardens, and ecological site regenerations.',
-    },
-  ];
-
-  const awards = [
-    { year: '2025', title: 'Architectural Review — House of the Year (Nominee)', project: 'The Courtyard House' },
-    { year: '2024', title: 'IIA National Excellence in Architecture Award', project: 'Monsoon Residence' },
-    { year: '2024', title: 'World Architecture Festival — Hospitality Category Shortlist', project: 'Coastal Retreat' },
-    { year: '2023', title: 'Asia Pacific Design Excellence — Workplace Award', project: 'The Minimal Office' },
-    { year: '2022', title: 'Sustainable Built Environment Award (IGBC Platinum)', project: 'Urban Pavilion' },
-  ];
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <PageTransition>
-      {/* ========================================================================= */}
-      {/* HERO SECTION */}
-      {/* ========================================================================= */}
-      <section className="pt-36 sm:pt-48 pb-20 px-6 sm:px-10 lg:px-16 bg-white text-[#141412] border-b border-black/5">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-3 mb-6">
-            <span className="font-mono text-xs tracking-widest text-[#9B9B90] uppercase">STUDIO PROFILE</span>
-            <div className="h-[1px] w-12 bg-black/15" />
+      <div className="bg-[#F5F4F0] text-[#141412] min-h-screen font-sans selection:bg-black selection:text-white">
+        
+        {/* ========================================================================= */}
+        {/* HERO SECTION WITH ABOUTIMG.PNG BACKGROUND */}
+        {/* ========================================================================= */}
+        <section className="relative min-h-[85vh] lg:min-h-[90vh] flex flex-col justify-between pt-32 sm:pt-40 pb-8 px-6 sm:px-10 lg:px-16 overflow-hidden bg-[#F5F4F0]">
+          {/* Background Image: aboutimg.png */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+            <img
+              src="/photos/aboutimg.png"
+              alt="TechPlus Architecture About Hero"
+              className="absolute right-0 top-0 h-full w-full object-cover object-right-top"
+            />
+            {/* Left blend gradient */}
+            <div className="absolute inset-y-0 left-0 w-full lg:w-[50%] bg-gradient-to-r from-[#F5F4F0] via-[#F5F4F0]/90 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#F5F4F0] to-transparent" />
           </div>
 
-          <h1 className="font-display text-5xl sm:text-7xl lg:text-[6.5rem] font-medium leading-[0.95] tracking-tighter text-[#141412] max-w-5xl">
-            We design with purpose.
-          </h1>
-
-          <div className="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-10 items-end">
-            <p className="lg:col-span-8 text-xl sm:text-2xl text-[#484842] font-editorial leading-relaxed">
-              TECHPLUS is an international architecture and spatial design practice founded in 2011. We believe that physical spaces have the profound power to anchor memories, foster contemplation, and harmonize human lives with the natural elements.
-            </p>
-            <div className="lg:col-span-4 flex flex-col gap-2 font-mono text-xs text-[#9B9B90]">
-              <span>KOCHI &bull; BANGALORE &bull; GOA</span>
-              <span>SPECIALIZED IN TROPICAL &amp; MINIMAL ARCHITECTURE</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* EDITORIAL ASYMMETRIC STORY SECTION */}
-      {/* ========================================================================= */}
-      <section className="py-24 sm:py-36 px-6 sm:px-10 lg:px-16 bg-white">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          <div className="lg:col-span-6 space-y-6">
-            <span className="font-mono text-xs tracking-widest text-[#9B9B90] uppercase block">
-              OUR STORY
-            </span>
-            <h2 className="font-display text-3xl sm:text-5xl font-normal leading-[1.15] text-[#141412]">
-              Rooted in tradition. Executed with surgical contemporary precision.
-            </h2>
-            <div className="space-y-4 text-sm sm:text-base text-[#6E6E65] font-light leading-relaxed">
-              <p>
-                Founded in Kerala, where tropical monsoons, lush flora, and ancient woodcraft traditions shape everyday living, TECHPLUS began with a singular goal: to create architecture that responds sincerely to the land.
-              </p>
-              <p>
-                Over 15 years, our practice has grown to encompass boutique resorts, private villas, corporate headquarters, and cultural landscape developments across 12 cities.
-              </p>
-              <p>
-                We eschew fleeting aesthetic trends in favor of timeless tectonic principles — calibrated natural daylight, deep shadow play, natural passive ventilation, and unadorned materials that gain beauty as they age.
-              </p>
-            </div>
-          </div>
-
-          <div className="lg:col-span-6">
-            <div className="relative">
-              <RevealImage
-                src="/photos/imgi_4_baner1.jpg"
-                alt="TechPlus Studio Philosophy"
-                aspectRatio="aspect-[4/3] sm:aspect-[16/11]"
-              />
-              <div className="mt-4 flex justify-between items-center text-xs font-mono text-[#9B9B90]">
-                <span>FIG 01. MONOLITHIC MATERIAL STUDY</span>
-                <span>KOCHI ATELIER</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================================================= */}
-      {/* ANIMATED STATISTICS SECTION */}
-      {/* ========================================================================= */}
-      <section className="py-20 sm:py-28 px-6 sm:px-10 lg:px-16 bg-[#141412] text-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-12 border-b border-white/10 pb-4 flex justify-between items-center">
-            <span className="font-mono text-xs tracking-widest text-[#A89F91] uppercase">
-              STUDIO METRICS &amp; IMPACT
-            </span>
-            <span className="font-mono text-xs text-[#9B9B90]">2011 — 2026</span>
-          </div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-            {[
-              { target: 15, suffix: '+', label: 'Years of Design', desc: 'Crafting spaces since 2011' },
-              { target: 60, suffix: '+', label: 'Built Projects', desc: 'Residential, Commercial & Resorts' },
-              { target: 12, suffix: '', label: 'Cities', desc: 'Across India and Southeast Asia' },
-              { target: 25, suffix: '+', label: 'Collaborators', desc: 'Architects, engineers & artisans' },
-            ].map((stat, i) => (
-              <div key={i} className="flex flex-col border-l border-white/10 pl-6 space-y-2">
-                <CounterNumber target={stat.target} suffix={stat.suffix} />
-                <span className="font-mono text-xs sm:text-sm tracking-wider uppercase text-white font-medium">
-                  {stat.label}
+          <div className="max-w-7xl mx-auto w-full relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center flex-1">
+            {/* Left Content Column */}
+            <div className="lg:col-span-6 space-y-8 py-6">
+              <div className="flex items-center gap-3">
+                <span className="font-mono text-xs tracking-widest text-[#73736C] uppercase font-medium">
+                  ABOUT US
                 </span>
-                <span className="text-xs text-[#9B9B90]">{stat.desc}</span>
+                <div className="h-[1px] w-12 bg-[#141412]/30" />
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ========================================================================= */}
-      {/* STUDIO LEADERSHIP & TEAM */}
-      {/* ========================================================================= */}
-      <section className="py-24 sm:py-36 px-6 sm:px-10 lg:px-16 bg-white">
-        <div className="max-w-7xl mx-auto">
-          <div className="max-w-2xl mb-16">
-            <span className="font-mono text-xs tracking-widest text-[#9B9B90] uppercase block mb-2">
-              STUDIO LEADERSHIP
-            </span>
-            <h2 className="font-display text-4xl sm:text-5xl font-normal text-[#141412]">
-              The minds behind the spaces.
-            </h2>
-            <p className="mt-4 text-sm text-[#6E6E65]">
-              A collaborative team of architects, interior sculptors, environmental engineers, and site coordinators.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {teamMembers.map((member) => (
-              <div key={member.name} className="group">
-                <div className="relative overflow-hidden rounded-md bg-neutral-100 aspect-[3/4] mb-4">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-full object-cover filter grayscale contrast-105 group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                  />
-                </div>
-                <div className="space-y-1">
-                  <h3 className="font-display text-xl font-medium text-[#141412]">
-                    {member.name}
-                  </h3>
-                  <p className="font-mono text-xs text-[#A89F91] tracking-wider uppercase font-medium">
-                    {member.role}
-                  </p>
-                  <p className="font-mono text-[11px] text-[#9B9B90]">{member.credentials}</p>
-                  <p className="pt-2 text-xs text-[#6E6E65] leading-relaxed font-sans">{member.bio}</p>
-                </div>
+              <div>
+                <h1 className="font-display tracking-tight text-black text-6xl sm:text-7xl lg:text-8xl font-light leading-[0.95]">
+                  <span className="font-semibold block mb-1">We design</span>
+                  <span className="font-serif italic font-normal text-[#8A8980] block">with purpose.</span>
+                </h1>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* ========================================================================= */}
-      {/* AWARDS & RECOGNITIONS */}
-      {/* ========================================================================= */}
-      <section className="py-20 sm:py-28 px-6 sm:px-10 lg:px-16 bg-white border-t border-black/5">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-3 mb-10">
-            <Award className="w-5 h-5 text-[#141412]" />
-            <span className="font-mono text-xs tracking-widest text-[#9B9B90] uppercase">
-              HONORS &amp; RECOGNITIONS
-            </span>
-          </div>
+              <p className="text-base sm:text-lg text-[#6E6E65] font-light max-w-md leading-relaxed">
+                TECHPLUS is an international architecture and spatial design practice founded in 2011. We believe that physical spaces have the profound power to anchor memories, foster contemplation, and harmonize human lives with the natural elements.
+              </p>
 
-          <div style={{ height: '500px', position: 'relative' }}>
-            <FlowingMenu 
-              items={awards.map((a, idx) => ({
-                link: '#', 
-                text: a.title, 
-                image: idx % 2 === 0 ? 'https://images.unsplash.com/photo-1782977389500-dd7adad33ebe?q=80&w=600&h=400&fit=crop&sat=-100&auto=format' : 'https://images.unsplash.com/photo-1781499455083-6ccc3beb20cd?q=80&w=600&h=400&fit=crop&sat=-100&auto=format'
-              }))}
-              bgColor="transparent"
-              textColor="#141412"
-              marqueeBgColor="#141412"
-              marqueeTextColor="#fff"
-              borderColor="rgba(0,0,0,0.1)"
+              <div className="pt-2">
+                <a
+                  href="#our-story"
+                  className="inline-flex items-center gap-4 group"
+                >
+                  <div className="w-12 h-12 rounded-full border border-black/20 flex items-center justify-center group-hover:bg-black group-hover:text-white transition-all duration-300">
+                    <ArrowRight className="w-5 h-5 transform group-hover:translate-x-0.5 transition-transform" />
+                  </div>
+                  <span className="font-mono text-xs tracking-widest uppercase text-black font-semibold">
+                    OUR STORY
+                  </span>
+                </a>
+              </div>
+            </div>
+
+            {/* Right Column Elements: Vertical Tag & Numbers */}
+            <div className="lg:col-span-6 h-full flex flex-col justify-between items-end relative py-6 pointer-events-none">
+              <div className="hidden sm:flex flex-col items-end gap-2 text-[#484842] mt-4">
+                <span className="font-mono text-[10px] tracking-widest uppercase [writing-mode:vertical-rl] rotate-180 font-medium">
+                  SPACES FOR A BETTER TOMORROW
+                </span>
+                <div className="h-12 w-[1px] bg-black/20" />
+              </div>
+
+              <div className="hidden sm:flex flex-col gap-1 font-mono text-[11px] text-[#484842] font-semibold self-end mt-auto">
+                <span className="text-black">01</span>
+                <span className="opacity-60">02</span>
+                <span className="opacity-60">03</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* OUR STORY SECTION */}
+        {/* ========================================================================= */}
+        <section id="our-story" className="py-24 sm:py-32 px-6 sm:px-10 lg:px-16 bg-[#F5F4F0] border-t border-black/10">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            
+            {/* Left Content */}
+            <div className="lg:col-span-6 space-y-6">
+              <div className="flex items-center gap-3">
+                <span className="font-mono text-xs tracking-widest text-[#73736C] uppercase font-medium">
+                  OUR STORY
+                </span>
+                <div className="h-[1px] w-12 bg-[#141412]/30" />
+              </div>
+
+              <h2 className="font-display text-4xl sm:text-5xl font-light leading-[1.1] text-black">
+                <span className="font-semibold block mb-1">Rooted in tradition.</span>
+                <span className="font-serif italic font-normal text-[#8A8980] block">Executed with contemporary precision.</span>
+              </h2>
+
+              <p className="text-sm sm:text-base text-[#6E6E65] font-light leading-relaxed max-w-xl">
+                Founded in 2011, TechPlus is a multidisciplinary studio working across architecture, interiors, landscape, and spatial design. Our approach blends cultural context with modern thinking, creating spaces that are functional, sustainable and deeply human.
+              </p>
+
+              <div className="pt-4">
+                <Link
+                  to="/portfolio"
+                  className="inline-flex items-center gap-2 font-mono text-xs tracking-widest uppercase font-semibold text-black hover:opacity-75 transition-opacity py-2 border-b border-black/20"
+                >
+                  LEARN MORE
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Image */}
+            <div className="lg:col-span-6">
+              <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/3] sm:aspect-[16/11]">
+                <img
+                  src="/photos/imgi_5_baner5.jpg"
+                  alt="TechPlus Architectural Precision"
+                  className="w-full h-full object-cover object-center"
+                />
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* OUR IMPACT IN NUMBERS (DARK SECTION) */}
+        {/* ========================================================================= */}
+        <section className="relative py-24 sm:py-32 px-6 sm:px-10 lg:px-16 bg-[#141412] text-white overflow-hidden">
+          {/* Dark Architectural Backdrop */}
+          <div className="absolute inset-0 pointer-events-none opacity-20">
+            <img
+              src="/photos/imgi_8_baner4.jpg"
+              alt="Backdrop"
+              className="w-full h-full object-cover filter grayscale"
             />
           </div>
-        </div>
-      </section>
 
+          <div className="max-w-7xl mx-auto relative z-10 space-y-16">
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-xs tracking-widest text-[#A89F91] uppercase font-medium">
+                OUR IMPACT IN NUMBERS
+              </span>
+              <div className="h-[1px] w-12 bg-white/20" />
+            </div>
 
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 border-t border-white/10 pt-12">
+              {/* Stat 1 */}
+              <div className="space-y-3 border-l border-white/10 pl-6">
+                <CounterNumber target={15} suffix="+" />
+                <span className="font-mono text-xs tracking-widest uppercase text-white font-semibold block">
+                  YEARS OF DESIGN
+                </span>
+                <p className="text-xs text-neutral-400 font-light">Creating spaces since 2011</p>
+              </div>
+
+              {/* Stat 2 */}
+              <div className="space-y-3 border-l border-white/10 pl-6">
+                <CounterNumber target={60} suffix="+" />
+                <span className="font-mono text-xs tracking-widest uppercase text-white font-semibold block">
+                  BUILT PROJECTS
+                </span>
+                <p className="text-xs text-neutral-400 font-light">Across residential, commercial and hospitality</p>
+              </div>
+
+              {/* Stat 3 */}
+              <div className="space-y-3 border-l border-white/10 pl-6">
+                <CounterNumber target={12} suffix="+" />
+                <span className="font-mono text-xs tracking-widest uppercase text-white font-semibold block">
+                  CITIES
+                </span>
+                <p className="text-xs text-neutral-400 font-light">In India and internationally</p>
+              </div>
+
+              {/* Stat 4 */}
+              <div className="space-y-3 border-l border-white/10 pl-6">
+                <CounterNumber target={25} suffix="+" />
+                <span className="font-mono text-xs tracking-widest uppercase text-white font-semibold block">
+                  COLLABORATORS
+                </span>
+                <p className="text-xs text-neutral-400 font-light">Architects, designers and industry experts</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* OUR FOUNDERS SECTION */}
+        {/* ========================================================================= */}
+        <section className="py-24 sm:py-36 px-6 sm:px-10 lg:px-16 bg-[#F5F4F0]">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+            
+            {/* Left Header Column */}
+            <div className="lg:col-span-4 space-y-6">
+              <div className="flex items-center gap-3">
+                <span className="font-mono text-xs tracking-widest text-[#73736C] uppercase font-medium">
+                  OUR FOUNDERS
+                </span>
+                <div className="h-[1px] w-12 bg-[#141412]/30" />
+              </div>
+
+              <h2 className="font-display tracking-tight text-black text-5xl sm:text-6xl font-light leading-[1.05]">
+                <span className="font-semibold block mb-1">The minds</span>
+                <span className="font-semibold block mb-1">behind</span>
+                <span className="font-serif italic font-normal text-[#8A8980] block">the spaces.</span>
+              </h2>
+            </div>
+
+            {/* Right Founder Cards Column */}
+            <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-10">
+              
+              {/* Founder 1 */}
+              <div className="space-y-6">
+                <div className="rounded-t-[80px] rounded-b-3xl overflow-hidden aspect-[3/4] bg-neutral-200 shadow-xl">
+                  <img
+                    src="/photos/imgi_4_project1.jpg"
+                    alt="Ar. Rohan Varma"
+                    className="w-full h-full object-cover object-center filter grayscale contrast-105 hover:grayscale-0 hover:scale-105 transition-all duration-700"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="font-display text-2xl font-medium text-black">
+                    Ar. Rohan Varma
+                  </h3>
+                  <span className="font-mono text-[10px] tracking-widest uppercase text-[#73736C] block font-semibold">
+                    FOUNDER &amp; PRINCIPAL ARCHITECT
+                  </span>
+                  <p className="text-xs sm:text-sm text-[#6E6E65] font-light leading-relaxed pt-1">
+                    Rohan brings a deep appreciation for context, culture, and human experience into every space.
+                  </p>
+                  <div className="pt-2">
+                    <Link
+                      to="/contact"
+                      className="inline-flex items-center gap-2 font-mono text-[11px] tracking-widest uppercase font-semibold text-black hover:opacity-75 transition-opacity"
+                    >
+                      VIEW PROFILE <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* Founder 2 */}
+              <div className="space-y-6">
+                <div className="rounded-t-[80px] rounded-b-3xl overflow-hidden aspect-[3/4] bg-neutral-200 shadow-xl">
+                  <img
+                    src="/photos/imgi_10_project3.jpg"
+                    alt="Maya Nair"
+                    className="w-full h-full object-cover object-center filter grayscale contrast-105 hover:grayscale-0 hover:scale-105 transition-all duration-700"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="font-display text-2xl font-medium text-black">
+                    Maya Nair
+                  </h3>
+                  <span className="font-mono text-[10px] tracking-widest uppercase text-[#73736C] block font-semibold">
+                    FOUNDER &amp; CREATIVE DIRECTOR
+                  </span>
+                  <p className="text-xs sm:text-sm text-[#6E6E65] font-light leading-relaxed pt-1">
+                    Maya leads the creative direction at TechPlus, focusing on innovative spatial solutions and sustainable design.
+                  </p>
+                  <div className="pt-2">
+                    <Link
+                      to="/contact"
+                      className="inline-flex items-center gap-2 font-mono text-[11px] tracking-widest uppercase font-semibold text-black hover:opacity-75 transition-opacity"
+                    >
+                      VIEW PROFILE <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* PANORAMIC ARCHITECTURAL IMAGE BANNER */}
+        {/* ========================================================================= */}
+        <section className="w-full h-[60vh] sm:h-[75vh] relative overflow-hidden">
+          <img
+            src="/photos/pcherp1.png"
+            alt="TechPlus Architecture Villa"
+            className="w-full h-full object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent" />
+          
+          <div className="absolute bottom-12 left-6 sm:left-10 lg:left-16 right-6 text-white max-w-4xl">
+            <span className="font-mono text-xs tracking-widest text-white/70 uppercase block mb-2">
+              ARCHITECTURE &amp; SPATIAL EXCELLENCE
+            </span>
+            <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl font-normal leading-tight">
+              Designing timeless spaces that inspire and endure.
+            </h2>
+          </div>
+        </section>
+      </div>
     </PageTransition>
   );
 };

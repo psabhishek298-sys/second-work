@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2 } from 'lucide-react';
+import { User, Mail, Phone, MessageSquare, ArrowRight, MapPin, CheckCircle2 } from 'lucide-react';
 import { PageTransition } from '../../components/PageTransition/PageTransition';
 import { api } from '../../services/api';
 import { ContactPayload } from '../../data/projects';
@@ -78,186 +78,251 @@ export const ContactPage: React.FC = () => {
 
   return (
     <PageTransition>
-      <section className="pt-36 sm:pt-44 pb-28 px-6 sm:px-10 lg:px-16 bg-white min-h-[90vh]">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-            
-            {/* Left Column: Information */}
-            <div className="lg:col-span-5 space-y-6 pt-2">
-              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-black leading-tight">
-                TECHPLUS<br />ARCHITECTURE
-              </h1>
+      <div className="bg-[#F5F4F0] text-[#141412] min-h-screen relative overflow-hidden font-sans selection:bg-black selection:text-white">
+        
+        {/* Background Architectural Villa Image */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+          <img
+            src="/photos/portimg.png"
+            alt="TechPlus Architecture Hero"
+            className="absolute right-0 top-0 h-full w-full object-cover object-right-top opacity-90"
+          />
+          {/* Left blend gradient */}
+          <div className="absolute inset-y-0 left-0 w-full lg:w-[50%] bg-gradient-to-r from-[#F5F4F0] via-[#F5F4F0]/95 to-transparent" />
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#F5F4F0] to-transparent" />
+        </div>
 
-              <p className="text-neutral-600 text-sm sm:text-base leading-relaxed">
-                We'd love to hear from you. Whether you have a question about our services, pricing, or anything else, our team is ready to answer all your questions.
+        {/* Main Content Section */}
+        <section className="relative z-10 pt-32 sm:pt-40 pb-20 px-6 sm:px-10 lg:px-16 min-h-[90vh] flex items-center">
+          <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+            
+            {/* Left Column: Heading & Contact Info */}
+            <div className="lg:col-span-6 space-y-8">
+              <div className="flex items-center gap-3">
+                <span className="font-mono text-xs tracking-widest text-[#73736C] uppercase font-medium">
+                  CONTACT US
+                </span>
+                <div className="h-[1px] w-12 bg-[#141412]/30" />
+              </div>
+
+              <div>
+                <h1 className="font-display tracking-tight text-black text-5xl sm:text-7xl lg:text-8xl font-light leading-[0.98]">
+                  <span className="font-serif italic font-normal block mb-1">Let's build</span>
+                  <span className="font-semibold block mb-1">something</span>
+                  <span className="text-[#8A8980] font-light italic font-serif block">meaningful.</span>
+                </h1>
+              </div>
+
+              <p className="text-base sm:text-lg text-[#6E6E65] font-light max-w-md leading-relaxed">
+                We'd love to hear from you. Whether you have a question about our services, a project in mind, or anything else, our team is ready to help.
               </p>
 
-              <div className="space-y-4 pt-4 text-sm text-black">
-                <div>
-                  <h3 className="font-bold text-black">Locations</h3>
-                  <p className="text-neutral-600">Kochi, Thrissur, Bangalore</p>
+              {/* Quick Contact Info */}
+              <div className="space-y-5 pt-4 text-sm">
+                <div className="flex items-start gap-4">
+                  <div className="w-9 h-9 rounded-full bg-black/5 flex items-center justify-center text-[#141412] mt-0.5 flex-shrink-0">
+                    <MapPin className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-[#141412] text-sm">Locations</h3>
+                    <p className="text-[#6E6E65] text-xs sm:text-sm font-light">Kochi, Thrissur, Bangalore</p>
+                  </div>
                 </div>
 
-                <div>
-                  <h3 className="font-bold text-black">Email</h3>
-                  <a
-                    href="mailto:hello@techplus.com"
-                    className="text-neutral-600 hover:text-black transition-colors"
-                  >
-                    hello@techplus.com
-                  </a>
+                <div className="flex items-start gap-4">
+                  <div className="w-9 h-9 rounded-full bg-black/5 flex items-center justify-center text-[#141412] mt-0.5 flex-shrink-0">
+                    <Mail className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-[#141412] text-sm">Email</h3>
+                    <a
+                      href="mailto:hello@techplus.com"
+                      className="text-[#6E6E65] hover:text-black transition-colors text-xs sm:text-sm font-light"
+                    >
+                      hello@techplus.com
+                    </a>
+                  </div>
                 </div>
 
-                <div>
-                  <h3 className="font-bold text-black">Phone</h3>
-                  <a
-                    href="tel:+919847012345"
-                    className="text-neutral-600 hover:text-black transition-colors"
-                  >
-                    +91 98470 12345
-                  </a>
+                <div className="flex items-start gap-4">
+                  <div className="w-9 h-9 rounded-full bg-black/5 flex items-center justify-center text-[#141412] mt-0.5 flex-shrink-0">
+                    <Phone className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-[#141412] text-sm">Phone</h3>
+                    <a
+                      href="tel:+919847012345"
+                      className="text-[#6E6E65] hover:text-black transition-colors text-xs sm:text-sm font-light"
+                    >
+                      +91 98470 12345
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Clean Form */}
-            <div className="lg:col-span-7">
-              <AnimatePresence>
-                {submitSuccess && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    className="mb-6 p-4 rounded-md bg-neutral-900 text-white flex items-center justify-between text-sm"
-                  >
-                    <div className="flex items-center gap-3">
-                      <CheckCircle2 className="w-5 h-5 text-emerald-400 flex-shrink-0" />
-                      <span>{submitSuccess}</span>
+            {/* Right Column: Floating Form Card */}
+            <div className="lg:col-span-6">
+              <div className="bg-[#F5F4F0]/85 backdrop-blur-xl border border-white/80 p-8 sm:p-10 rounded-3xl shadow-2xl space-y-6">
+                
+                {/* Form Card Header */}
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="font-mono text-xs tracking-widest text-[#73736C] uppercase font-medium">
+                    SEND US A MESSAGE
+                  </span>
+                  <div className="h-[1px] w-12 bg-[#141412]/30" />
+                </div>
+
+                <AnimatePresence>
+                  {submitSuccess && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      className="p-4 rounded-xl bg-black text-white flex items-center justify-between text-xs"
+                    >
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                        <span>{submitSuccess}</span>
+                      </div>
+                      <button
+                        onClick={() => setSubmitSuccess(null)}
+                        className="text-[10px] text-neutral-300 hover:text-white underline ml-2"
+                      >
+                        Dismiss
+                      </button>
+                    </motion.div>
+                  )}
+
+                  {errorMessage && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0 }}
+                      className="p-4 rounded-xl bg-red-50 text-red-700 border border-red-200 text-xs"
+                    >
+                      {errorMessage}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+                  {/* Name Input */}
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-mono tracking-wider uppercase text-[#141412] font-semibold">
+                      Name
+                    </label>
+                    <div className="relative">
+                      <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8A8980]" />
+                      <input
+                        type="text"
+                        required
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                        placeholder="John Doe"
+                        className={`w-full pl-10 pr-4 py-3 rounded-xl border ${
+                          errors.name ? 'border-red-500' : 'border-black/10'
+                        } text-black text-sm focus:outline-none focus:border-black bg-white/70 transition-all placeholder:text-[#9E9D95]`}
+                      />
                     </div>
+                    {errors.name && <p className="text-[11px] text-red-600 font-mono">{errors.name}</p>}
+                  </div>
+
+                  {/* Email Input */}
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-mono tracking-wider uppercase text-[#141412] font-semibold">
+                      Email
+                    </label>
+                    <div className="relative">
+                      <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8A8980]" />
+                      <input
+                        type="email"
+                        required
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        placeholder="john@example.com"
+                        className={`w-full pl-10 pr-4 py-3 rounded-xl border ${
+                          errors.email ? 'border-red-500' : 'border-black/10'
+                        } text-black text-sm focus:outline-none focus:border-black bg-white/70 transition-all placeholder:text-[#9E9D95]`}
+                      />
+                    </div>
+                    {errors.email && <p className="text-[11px] text-red-600 font-mono">{errors.email}</p>}
+                  </div>
+
+                  {/* Mobile Number Input */}
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-mono tracking-wider uppercase text-[#141412] font-semibold">
+                      Mobile Number
+                    </label>
+                    <div className="relative">
+                      <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8A8980]" />
+                      <input
+                        type="tel"
+                        required
+                        value={formData.phone}
+                        onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                        placeholder="+91 98765 43210"
+                        className={`w-full pl-10 pr-4 py-3 rounded-xl border ${
+                          errors.phone ? 'border-red-500' : 'border-black/10'
+                        } text-black text-sm focus:outline-none focus:border-black bg-white/70 transition-all placeholder:text-[#9E9D95]`}
+                      />
+                    </div>
+                    {errors.phone && <p className="text-[11px] text-red-600 font-mono">{errors.phone}</p>}
+                  </div>
+
+                  {/* Message Input */}
+                  <div className="space-y-1.5">
+                    <label className="block text-xs font-mono tracking-wider uppercase text-[#141412] font-semibold">
+                      Message
+                    </label>
+                    <div className="relative">
+                      <MessageSquare className="absolute left-3.5 top-3.5 w-4 h-4 text-[#8A8980]" />
+                      <textarea
+                        rows={4}
+                        required
+                        value={formData.message}
+                        onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                        placeholder="Tell us about your project..."
+                        className={`w-full pl-10 pr-4 py-3 rounded-xl border ${
+                          errors.message ? 'border-red-500' : 'border-black/10'
+                        } text-black text-sm focus:outline-none focus:border-black bg-white/70 transition-all resize-none placeholder:text-[#9E9D95]`}
+                      />
+                    </div>
+                    {errors.message && <p className="text-[11px] text-red-600 font-mono">{errors.message}</p>}
+                  </div>
+
+                  {/* Buttons Row */}
+                  <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <button
-                      onClick={() => setSubmitSuccess(null)}
-                      className="text-xs text-neutral-300 hover:text-white underline ml-4"
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full py-3.5 px-6 rounded-xl bg-[#141412] hover:bg-black text-white text-xs font-mono tracking-widest uppercase font-semibold transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-60"
                     >
-                      Dismiss
+                      <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
+                      <ArrowRight className="w-4 h-4" />
                     </button>
-                  </motion.div>
-                )}
 
-                {errorMessage && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    className="mb-6 p-4 rounded-md bg-red-50 text-red-700 border border-red-200 text-sm"
-                  >
-                    {errorMessage}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-                {/* Name */}
-                <div>
-                  <label className="block text-sm font-medium text-black mb-1.5">
-                    Name
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="John Doe"
-                    className={`w-full px-3.5 py-2.5 rounded-sm border ${
-                      errors.name ? 'border-red-500' : 'border-neutral-300'
-                    } text-black text-sm focus:outline-none focus:border-black bg-white transition-colors`}
-                  />
-                  {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name}</p>}
-                </div>
-
-                {/* Email */}
-                <div>
-                  <label className="block text-sm font-medium text-black mb-1.5">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    required
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="john@example.com"
-                    className={`w-full px-3.5 py-2.5 rounded-sm border ${
-                      errors.email ? 'border-red-500' : 'border-neutral-300'
-                    } text-black text-sm focus:outline-none focus:border-black bg-white transition-colors`}
-                  />
-                  {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email}</p>}
-                </div>
-
-                {/* Mobile Number */}
-                <div>
-                  <label className="block text-sm font-medium text-black mb-1.5">
-                    Mobile Number
-                  </label>
-                  <input
-                    type="tel"
-                    required
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    placeholder="+91 98765 43210"
-                    className={`w-full px-3.5 py-2.5 rounded-sm border ${
-                      errors.phone ? 'border-red-500' : 'border-neutral-300'
-                    } text-black text-sm focus:outline-none focus:border-black bg-white transition-colors`}
-                  />
-                  {errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone}</p>}
-                </div>
-
-                {/* Message */}
-                <div>
-                  <label className="block text-sm font-medium text-black mb-1.5">
-                    Message
-                  </label>
-                  <textarea
-                    rows={5}
-                    required
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    placeholder="Tell us about your project..."
-                    className={`w-full px-3.5 py-2.5 rounded-sm border ${
-                      errors.message ? 'border-red-500' : 'border-neutral-300'
-                    } text-black text-sm focus:outline-none focus:border-black bg-white transition-colors resize-y`}
-                  />
-                  {errors.message && <p className="mt-1 text-xs text-red-600">{errors.message}</p>}
-                </div>
-
-                {/* Buttons Row: Send Message & WhatsApp */}
-                <div className="pt-2 flex flex-wrap items-center gap-3">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="px-6 py-2.5 rounded-md bg-[#224436] hover:bg-[#1b362b] text-white text-sm font-medium transition-colors shadow-sm disabled:opacity-60"
-                  >
-                    {isSubmitting ? 'Sending...' : 'Send Message'}
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={handleWhatsAppClick}
-                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-md bg-[#25D366] hover:bg-[#20bd5a] text-white text-sm font-medium transition-colors shadow-sm"
-                  >
-                    {/* WhatsApp Icon */}
-                    <svg
-                      className="w-4 h-4 fill-current"
-                      viewBox="0 0 24 24"
+                    <button
+                      type="button"
+                      onClick={handleWhatsAppClick}
+                      className="w-full py-3.5 px-6 rounded-xl bg-white/90 border border-black/15 hover:bg-white text-black text-xs font-mono tracking-widest uppercase font-semibold transition-all shadow-sm flex items-center justify-center gap-2"
                     >
-                      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
-                    </svg>
-                    <span>WhatsApp</span>
-                  </button>
-                </div>
-              </form>
+                      {/* WhatsApp Icon */}
+                      <svg className="w-4 h-4 fill-current text-[#25D366]" viewBox="0 0 24 24">
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                      </svg>
+                      <span>WhatsApp</span>
+                    </button>
+                  </div>
+                </form>
+
+              </div>
             </div>
+
           </div>
-        </div>
-      </section>
+        </section>
+
+      </div>
     </PageTransition>
   );
 };
