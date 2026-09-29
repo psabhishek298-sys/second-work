@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUpRight, ArrowRight, Instagram, Linkedin, Dribbble, ArrowUp } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { PageTransition } from '../../components/PageTransition/PageTransition';
 import { api } from '../../services/api';
 import { Project, Category } from '../../data/projects';
@@ -32,10 +32,6 @@ export const PortfolioPage: React.FC = () => {
   const filteredProjects = selectedCategory === 'all'
     ? projects
     : projects.filter(p => p.category.toLowerCase() === selectedCategory.toLowerCase());
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   return (
     <PageTransition>

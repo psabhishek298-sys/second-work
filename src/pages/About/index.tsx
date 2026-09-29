@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useInView } from 'framer-motion';
-import { ArrowRight, ArrowUpRight, Instagram, Linkedin, Dribbble, ArrowUp } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { PageTransition } from '../../components/PageTransition/PageTransition';
 
 function CounterNumber({ target, suffix = '+' }: { target: number; suffix?: string }) {
@@ -35,9 +35,6 @@ function CounterNumber({ target, suffix = '+' }: { target: number; suffix?: stri
 }
 
 export const AboutPage: React.FC = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   return (
     <PageTransition>

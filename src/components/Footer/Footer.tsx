@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, ArrowRight, ArrowUp, MapPin, Instagram, Linkedin, Dribbble } from 'lucide-react';
+import { ArrowUpRight, ArrowRight, ArrowUp, MapPin, Instagram, Linkedin } from 'lucide-react';
 import { SiBehance, SiPinterest } from 'react-icons/si';
 
 export const Footer: React.FC = () => {

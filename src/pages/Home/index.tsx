@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { ArrowUpRight, Compass, Layers, ShieldCheck, Sparkles } from 'lucide-react';
 import { SiSupabase, SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiVercel } from 'react-icons/si';
 import { gsap } from 'gsap';
