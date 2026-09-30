@@ -99,9 +99,6 @@ export const ContactPage: React.FC = () => {
             {/* Left Column: Heading & Contact Info */}
             <div className="lg:col-span-6 space-y-8">
               <div className="flex items-center gap-3">
-                <span className="font-mono text-xs tracking-widest text-[#73736C] uppercase font-medium">
-                  CONTACT US
-                </span>
                 <div className="h-[1px] w-12 bg-[#141412]/30" />
               </div>
 

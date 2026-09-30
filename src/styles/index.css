@@ -56,9 +56,11 @@
 }
 
 /* Editorial & Display Typography Utilities */
-.font-editorial {
-  font-family: 'Plus Jakarta Sans', Outfit, Inter, -apple-system, BlinkMacSystemFont, sans-serif;
-  letter-spacing: -0.025em;
+.font-editorial,
+.font-serif,
+.font-city,
+.scroll-expand__title {
+  font-family: 'Architects Daughter', 'CityBlueprint', 'City Blueprint', cursive, sans-serif !important;
 }
 
 .font-sans-studio {
@@ -69,7 +71,4 @@
   font-family: 'Space Mono', monospace;
 }
 
-.font-city {
-  font-family: 'Architects Daughter', 'CityBlueprint', 'City Blueprint', cursive, sans-serif !important;
-}
 
