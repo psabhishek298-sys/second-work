@@ -19,12 +19,9 @@ gsap.registerPlugin(ScrollTrigger);
 
 export const HomePage: React.FC = () => {
   const [featuredProjects, setFeaturedProjects] = useState<Project[]>([]);
-  const [activeCategory, setActiveCategory] = useState<string>('ALL');
   const heroRef = useRef<HTMLDivElement>(null);
   const statementRef = useRef<HTMLDivElement>(null);
   const clipSectionRef = useRef<HTMLDivElement>(null);
-
-  const categories = ['ALL', 'RESIDENTIAL', 'COMMERCIAL', 'HOSPITALITY', 'INTERIOR'];
 
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -71,7 +68,6 @@ export const HomePage: React.FC = () => {
     return () => ctx.revert();
   }, []);
 
-  const statementWords = "We believe great architecture is experienced, not just seen.".split(' ');
 
   return (
     <PageTransition>
