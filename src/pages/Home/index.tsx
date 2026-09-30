@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowUpRight, Compass, Layers, ShieldCheck, Sparkles } from 'lucide-react';
+import { ArrowUpRight, ArrowRight, Compass, Layers, ShieldCheck, Sparkles } from 'lucide-react';
 import { SiSupabase, SiReact, SiNextdotjs, SiTypescript, SiTailwindcss, SiVercel } from 'react-icons/si';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -19,9 +19,12 @@ gsap.registerPlugin(ScrollTrigger);
 
 export const HomePage: React.FC = () => {
   const [featuredProjects, setFeaturedProjects] = useState<Project[]>([]);
+  const [activeCategory, setActiveCategory] = useState<string>('ALL');
   const heroRef = useRef<HTMLDivElement>(null);
   const statementRef = useRef<HTMLDivElement>(null);
   const clipSectionRef = useRef<HTMLDivElement>(null);
+
+  const categories = ['ALL', 'RESIDENTIAL', 'COMMERCIAL', 'HOSPITALITY', 'INTERIOR'];
 
   const { scrollYProgress } = useScroll({
     target: heroRef,
@@ -109,43 +112,114 @@ export const HomePage: React.FC = () => {
       {/* ========================================================================= */}
       {/* SECTION 1: SCROLL STATEMENT (GSAP ScrollTrigger animated) */}
       {/* ========================================================================= */}
+      {/* ========================================================================= */}
+      {/* SECTION 1: MANIFESTO (Matching provided mockup design) */}
+      {/* ========================================================================= */}
+      {/* ========================================================================= */}
+      {/* SECTION 1: MANIFESTO (Matching precise mockup design in image) */}
+      {/* ========================================================================= */}
       <section
         ref={statementRef}
-        className="py-28 sm:py-40 px-8 sm:px-12 lg:px-20 bg-white text-[#141412] border-b border-black/5"
+        className="py-20 sm:py-32 px-6 sm:px-12 lg:px-20 bg-white text-[#141412] border-b border-black/5 overflow-hidden"
       >
         <div className="max-w-[1550px] mx-auto">
-          <div className="flex items-center gap-3 mb-8">
-            <span className="font-mono text-xs tracking-widest text-[#9B9B90] uppercase">01 / MANIFESTO</span>
-            <div className="h-[1px] w-12 bg-black/15" />
+          {/* Main Top Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center mb-20 sm:mb-28">
+            {/* Left Column: Manifesto Text & Action */}
+            <div className="lg:col-span-6 flex flex-col justify-center">
+              <div className="flex items-center gap-3 mb-8">
+                <span className="font-mono text-xs tracking-widest text-[#8c8c82] uppercase">01 / MANIFESTO</span>
+                <div className="h-[1px] w-12 bg-black/20" />
+              </div>
+
+              <h2 className="font-display text-4xl sm:text-6xl lg:text-[72px] font-normal leading-[1.08] tracking-tight text-[#1a1a18] mb-8">
+                We believe <br />
+                <span className="text-[#a38361] font-normal">great architecture</span> <br />
+                is experienced, <br />
+                not just seen.
+              </h2>
+
+              <p className="text-xs sm:text-sm text-[#66665c] leading-relaxed max-w-md mb-10 font-sans">
+                Spaces shaped by context, crafted with natural materials, and designed for a better tomorrow.
+              </p>
+
+              <div>
+                <Link
+                  to="/about"
+                  className="inline-flex items-center gap-4 group cursor-pointer"
+                >
+                  <div className="w-10 h-10 rounded-full border border-black/30 flex items-center justify-center group-hover:bg-[#1a1a18] group-hover:border-[#1a1a18] group-hover:text-white transition-all duration-300">
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+                  </div>
+                  <span className="font-mono text-[11px] tracking-widest text-[#1a1a18] uppercase font-medium group-hover:text-[#a38361] transition-colors duration-300">
+                    DISCOVER OUR STUDIO
+                  </span>
+                </Link>
+              </div>
+            </div>
+
+            {/* Right Column: Hero Architectural House Image with top-left arch corner & white left fade */}
+            <div className="lg:col-span-6 relative">
+              {/* Top-left Arc Curve stroke line */}
+              <svg
+                className="absolute -top-10 -left-10 w-44 h-44 pointer-events-none hidden sm:block z-0"
+                viewBox="0 0 100 100"
+                fill="none"
+              >
+                <path
+                  d="M 95 5 C 35 5, 5 35, 5 95"
+                  stroke="#1a1a18"
+                  strokeWidth="0.6"
+                  strokeOpacity="0.2"
+                  fill="none"
+                />
+              </svg>
+
+              {/* Main Image Container Card with white left fade gradient */}
+              <div className="relative w-full aspect-[4/3] sm:aspect-[16/11] rounded-tl-[160px] sm:rounded-tl-[220px] rounded-br-[32px] rounded-tr-[24px] rounded-bl-[24px] overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.18)] bg-white group">
+                <img
+                  src="/photos/imgi_10_baner8.jpg"
+                  alt="Great Architecture Experienced"
+                  className="w-full h-full object-cover object-right transform group-hover:scale-105 transition-transform duration-700 ease-out"
+                />
+
+                {/* Smooth white gradient mask on the left */}
+                <div className="absolute inset-y-0 left-0 w-3/5 sm:w-7/12 bg-gradient-to-r from-white via-white/90 via-white/60 to-transparent z-10 pointer-events-none" />
+
+                {/* Bottom right slide indicator */}
+                <div className="absolute bottom-6 right-8 z-20 flex items-center gap-2 font-mono text-xs text-white/90 drop-shadow bg-black/40 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/10">
+                  <div className="h-[2px] w-5 bg-white" />
+                  <span>01 / 03</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <h2 className="font-display text-4xl sm:text-6xl lg:text-7xl font-medium leading-[1.12] tracking-tighter text-[#141412] max-w-5xl">
-            {statementWords.map((word, i) => (
-              <span
-                key={i}
-                className="statement-word inline-block mr-[0.28em] transition-colors duration-200"
-              >
-                {word}
-              </span>
-            ))}
-          </h2>
-
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 pt-10 border-t border-black/5">
-            <div>
-              <p className="font-mono text-xs tracking-widest text-[#9B9B90] uppercase mb-2">01. CONTEXTUALITY</p>
-              <p className="text-sm text-[#6E6E65] leading-relaxed">
+          {/* Bottom 3 Columns Feature Section */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12 pt-10 border-t border-black/10">
+            <div className="md:pr-6 md:border-r border-black/10">
+              <p className="font-mono text-xs tracking-widest text-[#1a1a18] font-semibold uppercase mb-3">
+                01. CONTEXTUALITY
+              </p>
+              <p className="text-xs sm:text-sm text-[#66665c] leading-relaxed">
                 Rooted in local geography, sunlight angles, climate patterns, and native building traditions.
               </p>
             </div>
-            <div>
-              <p className="font-mono text-xs tracking-widest text-[#9B9B90] uppercase mb-2">02. MATERIAL HONESTY</p>
-              <p className="text-sm text-[#6E6E65] leading-relaxed">
-                Raw rammed earth, exposed tactile concrete, reclaimed timber, and unvarnished natural stones.
+
+            <div className="md:px-6 md:border-r border-black/10">
+              <p className="font-mono text-xs tracking-widest text-[#1a1a18] font-semibold uppercase mb-3">
+                02. MATERIAL HONESTY
+              </p>
+              <p className="text-xs sm:text-sm text-[#66665c] leading-relaxed">
+                Raw, warm and earth, exposed tactile concrete, reclaimed timber, and unvarnished natural stone.
               </p>
             </div>
-            <div>
-              <p className="font-mono text-xs tracking-widest text-[#9B9B90] uppercase mb-2">03. HUMAN WELL-BEING</p>
-              <p className="text-sm text-[#6E6E65] leading-relaxed">
+
+            <div className="md:pl-6">
+              <p className="font-mono text-xs tracking-widest text-[#1a1a18] font-semibold uppercase mb-3">
+                03. HUMAN WELL-BEING
+              </p>
+              <p className="text-xs sm:text-sm text-[#66665c] leading-relaxed">
                 Spatial harmony, acoustics, and air quality calibrated to elevate psychological and sensory tranquility.
               </p>
             </div>
@@ -304,9 +378,9 @@ export const HomePage: React.FC = () => {
             className="absolute right-0 top-0 h-full w-full object-cover object-right-top opacity-95"
           />
           {/* Left blend gradient */}
-          <div className="absolute inset-y-0 left-0 w-full lg:w-[60%] bg-gradient-to-r from-[#F5F4F0] via-[#F5F4F0]/90 to-transparent" />
-          <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#F5F4F0] to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#F5F4F0] to-transparent" />
+          <div className="absolute inset-y-0 left-0 w-full lg:w-[65%] bg-gradient-to-r from-white via-white/95 via-white/80 to-transparent z-10" />
+          <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-white via-white/90 via-white/50 to-transparent z-10" />
+          <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#F5F4F0] to-transparent z-10" />
         </div>
 
         <div className="max-w-[1550px] mx-auto relative z-10 space-y-16">
