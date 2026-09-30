@@ -130,7 +130,7 @@ export const HomePage: React.FC = () => {
 
               <h2 className="font-display text-4xl sm:text-6xl lg:text-[72px] font-normal leading-[1.08] tracking-tight text-[#1a1a18] mb-8">
                 We believe <br />
-                <span className="text-[#a38361] font-normal">great architecture</span> <br />
+                <span className="text-[#a38361] font-normal font-city">great architecture</span> <br />
                 is experienced, <br />
                 not just seen.
               </h2>
@@ -391,7 +391,7 @@ export const HomePage: React.FC = () => {
             <h2 className="font-display tracking-tight text-black text-4xl sm:text-6xl font-light leading-[1.05]">
               <span className="font-semibold block mb-1">Crafting timeless built</span>
               <span className="font-semibold block mb-1">environments with rigor and</span>
-              <span className="font-serif italic font-normal text-[#8A8980] block">sensitivity.</span>
+              <span className="font-serif italic font-normal text-[#8A8980] block font-city">sensitivity.</span>
             </h2>
           </div>
 
