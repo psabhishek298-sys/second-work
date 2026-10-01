@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'CityBlueprint';
+  src: url('/fonts/CityBlueprint.ttf') format('truetype'),
+       url('/photos/fonts/CityBlueprint.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   :root {
     --bg-white: #ffffff;
@@ -55,12 +64,15 @@
   }
 }
 
-/* Editorial & Display Typography Utilities */
+/* Featured Header Font Utility (.font-city) */
+.font-city {
+  font-family: 'CityBlueprint', 'Architects Daughter', cursive, sans-serif !important;
+}
+
 .font-editorial,
 .font-serif,
-.font-city,
 .scroll-expand__title {
-  font-family: 'Architects Daughter', 'CityBlueprint', 'City Blueprint', cursive, sans-serif !important;
+  font-family: 'Plus Jakarta Sans', Outfit, sans-serif;
 }
 
 .font-sans-studio {
@@ -70,5 +82,6 @@
 .font-mono-arch {
   font-family: 'Space Mono', monospace;
 }
+
 
 

@@ -64,8 +64,8 @@ export const PortfolioPage: React.FC = () => {
 
               <div>
                 <h1 className="font-display tracking-tight text-black text-6xl sm:text-7xl lg:text-8xl font-light leading-[0.95]">
-                  <span className="font-serif italic font-normal block mb-1">Works &amp;</span>
-                  <span className="font-semibold block">Spaces</span>
+                  <span className="font-city">Works &</span><br />
+                  <span className="font-city">Spaces</span>
                 </h1>
               </div>
 

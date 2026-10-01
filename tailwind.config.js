@@ -36,9 +36,9 @@ export default {
       fontFamily: {
         display: ['"Plus Jakarta Sans"', 'Outfit', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         sans: ['"Plus Jakarta Sans"', 'Outfit', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        serif: ['"Architects Daughter"', '"CityBlueprint"', '"City Blueprint"', 'cursive', 'sans-serif'],
+        serif: ['"Plus Jakarta Sans"', 'Outfit', 'sans-serif'],
         mono: ['"Space Mono"', 'monospace'],
-        city: ['"Architects Daughter"', '"CityBlueprint"', '"City Blueprint"', 'cursive', 'sans-serif'],
+        city: ['"CityBlueprint"', '"Architects Daughter"', 'cursive', 'sans-serif'],
       },
       borderRadius: {
         'xs': '4px',

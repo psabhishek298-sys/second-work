@@ -14,6 +14,7 @@ export interface ScrollExpandProps {
   poster?: string;
   alt?: string;
   title?: string;
+  titleClassName?: string;
   scrollHint?: string;
   startWidth?: number;
   startHeight?: number;
@@ -38,6 +39,7 @@ export const ScrollExpand: React.FC<ScrollExpandProps> = ({
   poster = '',
   alt = '',
   title = '',
+  titleClassName = '',
   scrollHint = '',
   startWidth = 42,
   startHeight = 58,
@@ -274,7 +276,7 @@ export const ScrollExpand: React.FC<ScrollExpandProps> = ({
             ) : null}
           </div>
           {title ? (
-            <div ref={titleRef} className="scroll-expand__title">
+            <div ref={titleRef} className={`scroll-expand__title ${titleClassName}`}>
               {title}
             </div>
           ) : null}

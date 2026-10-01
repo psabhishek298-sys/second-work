@@ -68,8 +68,8 @@ export const AboutPage: React.FC = () => {
 
               <div>
                 <h1 className="font-display tracking-tight text-black text-6xl sm:text-7xl lg:text-8xl font-light leading-[0.95]">
-                  <span className="font-semibold block mb-1">We design</span>
-                  <span className="font-serif italic font-normal text-[#8A8980] block">with purpose.</span>
+                  <span className="font-city block mb-1 ">We design</span>
+                  <span className="font-city text-[#8A8980] block">with purpose.</span>
                 </h1>
               </div>
 
@@ -126,8 +126,8 @@ export const AboutPage: React.FC = () => {
               </div>
 
               <h2 className="font-display text-4xl sm:text-5xl font-light leading-[1.1] text-black">
-                <span className="font-semibold block mb-1">Rooted in tradition.</span>
-                <span className="font-serif italic font-normal text-[#8A8980] block">Executed with contemporary precision.</span>
+                <span className="font-semibold block mb-1">Rooted in tradition</span>
+                <span className="font-semibold block mb-1 text-[#8A8980] block">Executed with contemporary precision</span>
               </h2>
 
               <p className="text-sm sm:text-base text-[#6E6E65] font-light leading-relaxed max-w-xl">
@@ -238,7 +238,7 @@ export const AboutPage: React.FC = () => {
               <h2 className="font-display tracking-tight text-black text-5xl sm:text-6xl font-light leading-[1.05]">
                 <span className="font-semibold block mb-1">The minds</span>
                 <span className="font-semibold block mb-1">behind</span>
-                <span className="font-serif italic font-normal text-[#8A8980] block">the spaces.</span>
+                <span className="font-semibold block mb-1 text-[#8A8980] block">the spaces.</span>
               </h2>
             </div>
 

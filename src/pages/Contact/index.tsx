@@ -104,9 +104,9 @@ export const ContactPage: React.FC = () => {
 
               <div>
                 <h1 className="font-display tracking-tight text-black text-5xl sm:text-7xl lg:text-8xl font-light leading-[0.98]">
-                  <span className="font-serif italic font-normal block mb-1">Let's build</span>
-                  <span className="font-semibold block mb-1">something</span>
-                  <span className="text-[#8A8980] font-light italic font-serif block">meaningful.</span>
+                  <span className="font-city">Let's build</span><br />
+                  <span className="font-city">build</span><br />
+                  <span className="text-[#8A8980] font-light  font-city block">meaningful.</span>
                 </h1>
               </div>
 

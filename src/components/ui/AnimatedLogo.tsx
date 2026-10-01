@@ -120,7 +120,7 @@ export const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ isLight }) => {
         }
 
         .animated-logo-container .main-title {
-          font-family: 'Architects Daughter', cursive;
+          font-family: 'CityBlueprint', 'Architects Daughter', cursive, sans-serif;
           font-size: 20px;
           color: ${strokeColor};
           margin: 0;
@@ -129,7 +129,7 @@ export const AnimatedLogo: React.FC<AnimatedLogoProps> = ({ isLight }) => {
         }
 
         .animated-logo-container .sub-title {
-          font-family: 'Montserrat', sans-serif;
+          font-family: 'CityBlueprint', 'Architects Daughter', cursive, sans-serif;
           font-weight: 300;
           font-size: 8px;
           color: ${strokeColor};

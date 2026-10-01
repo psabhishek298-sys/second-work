@@ -124,18 +124,17 @@ export const HomePage: React.FC = () => {
             {/* Left Column: Manifesto Text & Action */}
             <div className="lg:col-span-6 flex flex-col justify-center">
               <div className="flex items-center gap-3 mb-8">
-                <span className="font-mono text-xs tracking-widest text-[#8c8c82] uppercase">01 / MANIFESTO</span>
                 <div className="h-[1px] w-12 bg-black/20" />
               </div>
 
-              <h2 className="font-display text-4xl sm:text-6xl lg:text-[72px] font-normal leading-[1.08] tracking-tight text-[#1a1a18] mb-8">
+              <h2 className="font-city text-4xl sm:text-6xl lg:text-[72px] font-normal leading-[1.08] tracking-tight text-[#1a1a18] mb-8">
                 We believe <br />
                 <span className="text-[#a38361] font-normal font-city">great architecture</span> <br />
                 is experienced, <br />
                 not just seen.
               </h2>
 
-              <p className="text-xs sm:text-sm text-[#66665c] leading-relaxed max-w-md mb-10 font-sans">
+              <p className="text-xs sm:text-sm text-[#66665c] leading-relaxed max-w-md mb-10 ">
                 Spaces shaped by context, crafted with natural materials, and designed for a better tomorrow.
               </p>
 
@@ -147,7 +146,7 @@ export const HomePage: React.FC = () => {
                   <div className="w-10 h-10 rounded-full border border-black/30 flex items-center justify-center group-hover:bg-[#1a1a18] group-hover:border-[#1a1a18] group-hover:text-white transition-all duration-300">
                     <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
                   </div>
-                  <span className="font-mono text-[11px] tracking-widest text-[#1a1a18] uppercase font-medium group-hover:text-[#a38361] transition-colors duration-300">
+                  <span className=" text-[11px] tracking-widest text-[#1a1a18] uppercase font-medium group-hover:text-[#a38361] transition-colors duration-300">
                     DISCOVER OUR STUDIO
                   </span>
                 </Link>
@@ -194,7 +193,7 @@ export const HomePage: React.FC = () => {
           {/* Bottom 3 Columns Feature Section */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12 pt-10 border-t border-black/10">
             <div className="md:pr-6 md:border-r border-black/10">
-              <p className="font-mono text-xs tracking-widest text-[#1a1a18] font-semibold uppercase mb-3">
+              <p className=" text-xs tracking-widest text-[#1a1a18] font-semibold uppercase mb-3">
                 01. CONTEXTUALITY
               </p>
               <p className="text-xs sm:text-sm text-[#66665c] leading-relaxed">
@@ -203,7 +202,7 @@ export const HomePage: React.FC = () => {
             </div>
 
             <div className="md:px-6 md:border-r border-black/10">
-              <p className="font-mono text-xs tracking-widest text-[#1a1a18] font-semibold uppercase mb-3">
+              <p className=" text-xs tracking-widest text-[#1a1a18] font-semibold uppercase mb-3">
                 02. MATERIAL HONESTY
               </p>
               <p className="text-xs sm:text-sm text-[#66665c] leading-relaxed">
@@ -212,7 +211,7 @@ export const HomePage: React.FC = () => {
             </div>
 
             <div className="md:pl-6">
-              <p className="font-mono text-xs tracking-widest text-[#1a1a18] font-semibold uppercase mb-3">
+              <p className=" text-xs tracking-widest text-[#1a1a18] font-semibold uppercase mb-3">
                 03. HUMAN WELL-BEING
               </p>
               <p className="text-xs sm:text-sm text-[#66665c] leading-relaxed">
@@ -241,10 +240,10 @@ export const HomePage: React.FC = () => {
                 clipReveal={true}
               />
               <div className="absolute -bottom-6 -right-6 hidden sm:block bg-white p-6 rounded-xl border border-black/10 max-w-xs shadow-xl">
-                <span className="font-mono text-[10px] tracking-widest text-[#9B9B90] uppercase block mb-1">
+                <span className=" text-[10px] tracking-widest text-[#9B9B90] uppercase block mb-1">
                   SPATIAL PURITY
                 </span>
-                <p className="text-xs text-[#484842] font-sans leading-relaxed">
+                <p className="text-xs text-[#484842]  leading-relaxed">
                   "Every plane and shadow must have intention. When unnecessary ornament is shed, pure space emerges."
                 </p>
               </div>
@@ -253,7 +252,7 @@ export const HomePage: React.FC = () => {
 
           {/* Right Column: Editorial Narrative */}
           <div className="lg:col-span-5 space-y-6">
-            <span className="font-mono text-xs tracking-widest text-[#9B9B90] uppercase block">
+            <span className=" text-xs tracking-widest text-[#9B9B90] uppercase block">
               02 / DESIGN PHILOSOPHY
             </span>
             <h2 className="font-display text-4xl sm:text-5xl font-normal leading-[1.1] tracking-tight text-[#141412]">
@@ -289,21 +288,16 @@ export const HomePage: React.FC = () => {
           src="/photos/pchero.jpg"
           alt="Architectural Excellence"
           title="Built to Scale"
+          titleClassName="font-city"
           scrollHint="Scroll to expand"
           scrollDistance={1.5}
           holdDistance={0.5}
           useWindowScroll
         >
           <div className="max-w-2xl text-center px-4">
-            <span className="font-mono text-xs tracking-widest text-white/70 uppercase block mb-3">
-              CRAFT & PRECISION
-            </span>
-            <h2 className="font-display text-4xl sm:text-6xl font-medium text-white mb-4">
+            <h2 className="text-4xl sm:text-6xl font-high text-white mb-4 font-city font-size-62px">
               Every detail, everywhere
             </h2>
-            <p className="text-sm sm:text-base text-neutral-300 font-light leading-relaxed">
-              The frame opens up as you scroll and hands the whole stage to your media.
-            </p>
           </div>
         </ScrollExpand>
       </section>
@@ -316,10 +310,10 @@ export const HomePage: React.FC = () => {
           {/* Section Header */}
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 pb-6 border-b border-black/10 gap-6">
             <div>
-              <span className="font-mono text-xs tracking-widest text-[#9B9B90] uppercase block mb-2">
+              <span className="text-xs tracking-widest text-[#9B9B90] uppercase block mb-2">
                 03 / SELECTED PORTFOLIO
               </span>
-              <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-normal tracking-tight text-[#141412]">
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-normal tracking-tight text-[#141412]">
                 Featured Works
               </h2>
             </div>
@@ -391,7 +385,7 @@ export const HomePage: React.FC = () => {
             <h2 className="font-display tracking-tight text-black text-4xl sm:text-6xl font-light leading-[1.05]">
               <span className="font-semibold block mb-1">Crafting timeless built</span>
               <span className="font-semibold block mb-1">environments with rigor and</span>
-              <span className="font-serif italic font-normal text-[#8A8980] block font-city">sensitivity.</span>
+              <span className="font-semibold block mb-1 text-[#8A8980] block ">sensitivity.</span>
             </h2>
           </div>
 
