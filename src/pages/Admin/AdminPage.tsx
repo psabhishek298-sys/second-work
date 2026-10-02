@@ -212,14 +212,18 @@ export const AdminPage: React.FC = () => {
   // LOGO HANDLERS
   const handleSaveLogo = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!logoForm.name || !logoForm.logo_url) {
-      alert('Please fill in Client Name and Logo');
+    if (!logoForm.logo_url) {
+      alert('Please upload a logo image');
       return;
     }
+    const finalLogo = {
+      name: logoForm.name?.trim() || 'Client Logo',
+      logo_url: logoForm.logo_url
+    };
     if (editingLogo) {
-      await updateClientLogoDB(editingLogo.id, logoForm);
+      await updateClientLogoDB(editingLogo.id, finalLogo);
     } else {
-      await createClientLogoDB(logoForm as Omit<ClientLogoItem, 'id'>);
+      await createClientLogoDB(finalLogo as Omit<ClientLogoItem, 'id'>);
     }
     setIsLogoModalOpen(false);
     setEditingLogo(null);
@@ -690,29 +694,38 @@ export const AdminPage: React.FC = () => {
       {/* CLIENT LOGO MODAL */}
       {isLogoModalOpen && (
         <div className="ios-modal-overlay">
-          <div className="ios-modal">
+          <div className="ios-modal" style={{ maxWidth: '440px' }}>
             <div className="ios-modal-header">
-              <h2>Add Client / Partner Logo</h2>
+              <h2>Add Client Logo</h2>
               <button onClick={() => setIsLogoModalOpen(false)} className="ios-btn-icon"><X size={18} /></button>
             </div>
             <form onSubmit={handleSaveLogo} className="ios-modal-form">
               <div className="ios-input-group">
-                <label>Client / Company Name *</label>
-                <input type="text" required value={logoForm.name || ''} onChange={e => setLogoForm({ ...logoForm, name: e.target.value })} placeholder="e.g. Skyline Builders" />
-              </div>
-              <div className="ios-input-group">
                 <label>Upload Logo Image *</label>
-                <input type="file" accept="image/*" onChange={async e => {
-                  if (e.target.files?.[0]) {
-                    const url = await uploadImage(e.target.files[0], 'logos');
-                    if (url) setLogoForm({ ...logoForm, logo_url: url });
-                  }
-                }} />
-                {logoForm.logo_url && <img src={logoForm.logo_url} alt="Logo Preview" style={{ maxHeight: 60, marginTop: 8 }} />}
+                <div className="ios-file-upload studio-drop-zone">
+                  <input type="file" accept="image/*" onChange={async e => {
+                    if (e.target.files?.[0]) {
+                      setUploadingImage(true);
+                      const url = await uploadImage(e.target.files[0], 'logos');
+                      if (url) setLogoForm({ ...logoForm, logo_url: url });
+                      setUploadingImage(false);
+                    }
+                  }} />
+                  {logoForm.logo_url ? (
+                    <img src={logoForm.logo_url} alt="Logo Preview" style={{ maxHeight: 70, objectFit: 'contain' }} />
+                  ) : (
+                    <div className="studio-upload-prompt">
+                      <Upload size={28} />
+                      <p><strong>Click or Drop Client Logo Image</strong></p>
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="ios-modal-footer">
                 <button type="button" onClick={() => setIsLogoModalOpen(false)} className="ios-btn-secondary">Cancel</button>
-                <button type="submit" className="ios-btn-primary">Save Logo</button>
+                <button type="submit" className="ios-btn-primary" disabled={uploadingImage || !logoForm.logo_url}>
+                  {uploadingImage ? 'Uploading...' : 'Save Logo'}
+                </button>
               </div>
             </form>
           </div>
