@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, Mail, Phone, MessageSquare, ArrowRight, MapPin, CheckCircle2 } from 'lucide-react';
 import { PageTransition } from '../../components/PageTransition/PageTransition';
-import { api } from '../../services/api';
 import { ContactPayload } from '../../data/projects';
 
 export const ContactPage: React.FC = () => {
@@ -52,15 +51,20 @@ export const ContactPage: React.FC = () => {
 
     setIsSubmitting(true);
     try {
-      const response = await api.sendContact(formData);
-      setSubmitSuccess(response.message || 'Message sent successfully!');
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        message: '',
-      });
-      setErrors({});
+      const { createEnquiryDB } = await import('../../services/adminService');
+      const success = await createEnquiryDB(formData);
+      if (success) {
+        setSubmitSuccess('Thank you! Your inquiry has been submitted successfully.');
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          message: '',
+        });
+        setErrors({});
+      } else {
+        throw new Error('Could not submit inquiry');
+      }
     } catch (err: any) {
       setErrorMessage(err.message || 'Unable to send message. Please try again.');
     } finally {

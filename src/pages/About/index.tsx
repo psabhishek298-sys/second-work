@@ -224,37 +224,37 @@ export const AboutPage: React.FC = () => {
         {/* OUR FOUNDERS SECTION */}
         {/* ========================================================================= */}
         <section className="py-24 sm:py-36 px-6 sm:px-10 lg:px-16 bg-[#F5F4F0]">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          <div className="max-w-6xl mx-auto space-y-16">
             
-            {/* Left Header Column */}
-            <div className="lg:col-span-4 space-y-6">
-              <div className="flex items-center gap-3">
+            {/* Top Header */}
+            <div className="text-center max-w-2xl mx-auto space-y-4">
+              <div className="inline-flex items-center justify-center gap-3">
                 <span className="font-mono text-xs tracking-widest text-[#73736C] uppercase font-medium">
                   OUR FOUNDERS
                 </span>
                 <div className="h-[1px] w-12 bg-[#141412]/30" />
               </div>
 
-              <h2 className="font-display tracking-tight text-black text-5xl sm:text-6xl font-light leading-[1.05]">
-                <span className="font-semibold block mb-1">The minds</span>
-                <span className="font-semibold block mb-1">behind</span>
-                <span className="font-semibold block mb-1 text-[#8A8980] block">the spaces.</span>
+              <h2 className="font-display tracking-tight text-black text-4xl sm:text-5xl lg:text-6xl font-light leading-[1.1]">
+                <span className="font-semibold">The minds </span>
+                <span className="font-semibold">behind </span>
+                <span className="font-semibold text-[#8A8980]">the spaces.</span>
               </h2>
             </div>
 
-            {/* Right Founder Cards Column */}
-            <div className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-10">
+            {/* Founder Cards (Centered Grid) */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-12 sm:gap-16 max-w-4xl mx-auto">
               
               {/* Founder 1 */}
-              <div className="space-y-6">
-                <div className="rounded-t-[80px] rounded-b-3xl overflow-hidden aspect-[3/4] bg-neutral-200 shadow-xl">
+              <div className="flex flex-col items-center text-center space-y-6">
+                <div className="w-61 h-61 sm:w-61 sm:h-61 rounded-xl overflow-hidden bg-neutral-200 shadow-xl border-4 border-white">
                   <img
                     src="/photos/imgi_4_project1.jpg"
                     alt="Ar. Rohan Varma"
-                    className="w-full h-full object-cover object-center filter grayscale contrast-105 hover:grayscale-0 hover:scale-105 transition-all duration-700"
+                    className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
                   />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2 max-w-sm">
                   <h3 className="font-display text-2xl font-medium text-black">
                     Ar. Rohan Varma
                   </h3>
@@ -264,27 +264,19 @@ export const AboutPage: React.FC = () => {
                   <p className="text-xs sm:text-sm text-[#6E6E65] font-light leading-relaxed pt-1">
                     Rohan brings a deep appreciation for context, culture, and human experience into every space.
                   </p>
-                  <div className="pt-2">
-                    <Link
-                      to="/contact"
-                      className="inline-flex items-center gap-2 font-mono text-[11px] tracking-widest uppercase font-semibold text-black hover:opacity-75 transition-opacity"
-                    >
-                      VIEW PROFILE <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
                 </div>
               </div>
 
               {/* Founder 2 */}
-              <div className="space-y-6">
-                <div className="rounded-t-[80px] rounded-b-3xl overflow-hidden aspect-[3/4] bg-neutral-200 shadow-xl">
+              <div className="flex flex-col items-center text-center space-y-6">
+                <div className="w-61 h-61 sm:w-61 sm:h-61 rounded-xl overflow-hidden bg-neutral-200 shadow-xl border-4 border-white">
                   <img
                     src="/photos/imgi_10_project3.jpg"
                     alt="Maya Nair"
-                    className="w-full h-full object-cover object-center filter grayscale contrast-105 hover:grayscale-0 hover:scale-105 transition-all duration-700"
+                    className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700"
                   />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2 max-w-sm">
                   <h3 className="font-display text-2xl font-medium text-black">
                     Maya Nair
                   </h3>
@@ -294,14 +286,6 @@ export const AboutPage: React.FC = () => {
                   <p className="text-xs sm:text-sm text-[#6E6E65] font-light leading-relaxed pt-1">
                     Maya leads the creative direction at TechPlus, focusing on innovative spatial solutions and sustainable design.
                   </p>
-                  <div className="pt-2">
-                    <Link
-                      to="/contact"
-                      className="inline-flex items-center gap-2 font-mono text-[11px] tracking-widest uppercase font-semibold text-black hover:opacity-75 transition-opacity"
-                    >
-                      VIEW PROFILE <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
                 </div>
               </div>
 
