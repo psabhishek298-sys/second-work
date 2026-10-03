@@ -38,7 +38,7 @@ export default {
         sans: ['"Plus Jakarta Sans"', 'Outfit', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         serif: ['"Plus Jakarta Sans"', 'Outfit', 'sans-serif'],
         mono: ['"Space Mono"', 'monospace'],
-        city: ['"CityBlueprint"', '"Architects Daughter"', 'cursive', 'sans-serif'],
+        city: ['"CityBlueprint"', 'system-ui', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'sans-serif'],
       },
       borderRadius: {
         'xs': '4px',

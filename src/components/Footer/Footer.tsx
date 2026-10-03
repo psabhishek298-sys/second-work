@@ -1,30 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, ArrowRight, ArrowUp, MapPin, Instagram, Linkedin } from 'lucide-react';
 import { SiBehance, SiPinterest } from 'react-icons/si';
+import { AnimatedLogo } from '../ui/AnimatedLogo';
 
 export const Footer: React.FC = () => {
-  const [time, setTime] = useState<string>('');
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      setTime(
-        now.toLocaleTimeString('en-US', {
-          timeZone: 'Asia/Kolkata',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: false,
-        })
-      );
-    };
-
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -48,34 +28,20 @@ export const Footer: React.FC = () => {
         {/* Main Footer Columns */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-16 border-b border-black/15 items-start">
           
-          {/* Column 1: Brand Info & Live Studio Clock */}
+          {/* Column 1: Brand Info (Animated Logo matching Navbar) */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="flex items-center gap-3">
-              <div className="w-6 h-6 border-2 border-black flex items-center justify-center font-mono text-xs font-bold text-black bg-white/80">
-                +
-              </div>
-              <span className="font-display tracking-widest text-xl font-bold uppercase text-black">
-                TECHPLUS
-              </span>
-            </div>
+            <Link to="/" className="inline-block transition-opacity hover:opacity-85">
+              <AnimatedLogo isLight={false} />
+            </Link>
 
             <p className="text-sm text-[#2A2A26] font-normal max-w-sm leading-relaxed">
               Architecture shaped around people, place and purpose. An international design atelier focused on contextual, sustainable and sensory environments.
             </p>
-
-            <div className="pt-2 flex items-center gap-3 font-mono text-xs text-[#141412] bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-black/15 w-fit shadow-sm">
-              <span className="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="font-medium">STUDIO TIME (IST)</span>
-              <span className="text-black font-bold pl-2 border-l border-black/20">{time || '22:25:41'}</span>
-            </div>
           </div>
 
-          {/* Column 2: Explore Navigation Links */}
-          <div className="lg:col-span-3 space-y-4">
-            <span className="font-mono text-xs tracking-widest text-[#141412] uppercase block font-bold bg-white/60 backdrop-blur-sm px-3 py-1 rounded-md w-fit border border-black/10">
-              EXPLORE
-            </span>
-            <ul className="space-y-3 font-sans text-sm pt-1">
+          {/* Column 2: Navigation Links */}
+          <div className="lg:col-span-3 space-y-4 pt-2">
+            <ul className="space-y-3 font-sans text-sm">
               {[
                 { label: 'Home', path: '/' },
                 { label: 'About Studio', path: '/about' },
@@ -96,36 +62,25 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          {/* Column 3: Studios / Locations */}
-          <div className="lg:col-span-3 space-y-4">
-            <span className="font-mono text-xs tracking-widest text-[#141412] uppercase block font-bold bg-white/60 backdrop-blur-sm px-3 py-1 rounded-md w-fit border border-black/10">
-              STUDIOS
-            </span>
-            <div className="space-y-5 text-xs text-[#2A2A26] pt-1">
+          {/* Column 3: Location */}
+          <div className="lg:col-span-3 space-y-4 pt-2">
+            <div className="space-y-5 text-xs text-[#2A2A26]">
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-black mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="text-black font-bold text-sm">Kerala (HQ)</p>
-                  <p className="text-[#3A3A35] font-medium">Studio 04, Panampilly Nagar,<br />Kochi, India</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-2.5 pt-1">
-                <MapPin className="w-4 h-4 text-black mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-black font-bold text-sm">Bangalore</p>
-                  <p className="text-[#3A3A35] font-medium">The Mill, Indiranagar,<br />Bangalore, India</p>
+                  <p className="text-black font-bold text-sm">Techno + Associates</p>
+                  <p className="text-[#3A3A35] font-medium leading-relaxed mt-1">
+                    Munduparamba, Malappuram,<br />
+                    Keralam 676509
+                  </p>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Column 4: Connect / Social */}
-          <div className="lg:col-span-2 space-y-4">
-            <span className="font-mono text-xs tracking-widest text-[#141412] uppercase block font-bold bg-white/60 backdrop-blur-sm px-3 py-1 rounded-md w-fit border border-black/10">
-              CONNECT
-            </span>
-            <ul className="space-y-3 text-sm pt-1">
+          {/* Column 4: Social Links */}
+          <div className="lg:col-span-2 space-y-4 pt-2">
+            <ul className="space-y-3 text-sm">
               {[
                 { name: 'Instagram', icon: Instagram, url: 'https://instagram.com' },
                 { name: 'LinkedIn', icon: Linkedin, url: 'https://linkedin.com' },

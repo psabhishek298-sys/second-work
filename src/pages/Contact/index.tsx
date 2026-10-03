@@ -125,8 +125,8 @@ export const ContactPage: React.FC = () => {
                     <MapPin className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-[#141412] text-sm">Locations</h3>
-                    <p className="text-[#6E6E65] text-xs sm:text-sm font-light">Kochi, Thrissur, Bangalore</p>
+                    <h3 className="font-bold text-[#141412] text-sm">Location</h3>
+                    <p className="text-[#6E6E65] text-xs sm:text-sm font-light">Munduparamba, Malappuram, Keralam 676509</p>
                   </div>
                 </div>
 
@@ -320,6 +320,46 @@ export const ContactPage: React.FC = () => {
               </div>
             </div>
 
+          </div>
+        </section>
+
+        {/* Google Maps Section */}
+        <section className="relative z-10 pb-24 px-6 sm:px-10 lg:px-16 max-w-7xl mx-auto">
+          <div className="bg-white/80 backdrop-blur-md border border-black/10 rounded-3xl p-4 sm:p-6 shadow-xl space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-2">
+              <div>
+                <h2 className="font-display text-xl sm:text-2xl font-bold text-black flex items-center gap-2">
+                  <MapPin className="w-5 h-5 text-black" />
+                  <span>Visit Our Studio</span>
+                </h2>
+                <p className="text-xs sm:text-sm text-[#6E6E65] mt-0.5">
+                  Techno + Associates, Munduparamba, Malappuram, Keralam 676509
+                </p>
+              </div>
+              <a
+                href="https://www.google.com/maps/place/Techno+%2B+Associates/@11.0505832,76.0931171,909m/data=!3m1!1e3!4m14!1m7!3m6!1s0x3ba63522ec3ef783:0x6eb96efac027126b!2sTechno+%2B+Associates!8m2!3d11.0505832!4d76.0931171!16s%2Fg%2F11k4lrhrmd!3m5!1s0x3ba63522ec3ef783:0x6eb96efac027126b!8m2!3d11.0505832!4d76.0931171!16s%2Fg%2F11k4lrhrmd?hl=en&entry=ttu&g_ep=EgoyMDI2MDkzMC4wIKXMDSoASAFQAw%3D%3D"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-2 bg-[#141412] hover:bg-black text-white text-xs font-mono tracking-wider uppercase font-semibold px-5 py-2.5 rounded-xl transition-all shadow-sm shrink-0"
+              >
+                <span>Open in Google Maps</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </a>
+            </div>
+
+            {/* Embedded Google Map iframe */}
+            <div className="w-full h-[380px] sm:h-[450px] rounded-2xl overflow-hidden border border-black/10 relative shadow-inner bg-neutral-100">
+              <iframe
+                title="Techno + Associates Location Map"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3916.146243888364!2d76.09054217590855!3d11.050583189115048!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba63522ec3ef783%3A0x6eb96efac027126b!2sTechno%20%2B%20Associates!5e0!3m2!1sen!2sin!4v1712000000000!5m2!1sen!2sin"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            </div>
           </div>
         </section>
 

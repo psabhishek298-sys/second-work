@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowLeft, ArrowRight, Maximize2, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Maximize2, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { PageTransition } from '../../components/PageTransition/PageTransition';
 
 import { api } from '../../services/api';
@@ -13,7 +13,7 @@ export const ProjectDetailsPage: React.FC = () => {
   const [project, setProject] = useState<Project | null>(null);
   const [prevSlug, setPrevSlug] = useState<string | null>(null);
   const [nextSlug, setNextSlug] = useState<string | null>(null);
-  const [activeLightboxImg, setActiveLightboxImg] = useState<string | null>(null);
+  const [activeLightboxIndex, setActiveLightboxIndex] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -43,6 +43,20 @@ export const ProjectDetailsPage: React.FC = () => {
       </div>
     );
   }
+
+  const handlePrevLightbox = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (activeLightboxIndex !== null && project.gallery.length > 0) {
+      setActiveLightboxIndex((activeLightboxIndex - 1 + project.gallery.length) % project.gallery.length);
+    }
+  };
+
+  const handleNextLightbox = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (activeLightboxIndex !== null && project.gallery.length > 0) {
+      setActiveLightboxIndex((activeLightboxIndex + 1) % project.gallery.length);
+    }
+  };
 
   return (
     <PageTransition>
@@ -84,34 +98,42 @@ export const ProjectDetailsPage: React.FC = () => {
           <h1 className="font-display text-4xl sm:text-6xl lg:text-7xl font-normal leading-[1.05] tracking-tight text-white">
             {project.title}
           </h1>
-
         </div>
 
       </section>
 
       {/* ========================================================================= */}
-      {/* HIGH-RES GALLERY SECTION */}
+      {/* 4-COLUMN ALBUM / GALLERY GRID */}
       {/* ========================================================================= */}
-      <section className="py-12 sm:py-24 px-6 sm:px-10 lg:px-16 bg-white">
-        <div className="max-w-7xl mx-auto space-y-8 lg:space-y-16">
-          {project.gallery.map((imgUrl, i) => (
-            <div
-              key={i}
-              className="group relative cursor-pointer overflow-hidden rounded-md bg-neutral-100 w-full"
-              onClick={() => setActiveLightboxImg(imgUrl)}
-            >
-              <img
-                src={imgUrl}
-                alt={`${project.title} - Image ${i + 1}`}
-                className="w-full h-auto object-cover"
-              />
-              <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                <div className="w-16 h-16 rounded-full bg-white/90 text-black flex items-center justify-center shadow-lg">
-                  <Maximize2 className="w-6 h-6" />
+      <section className="py-12 sm:py-20 px-6 sm:px-10 lg:px-16 bg-white">
+        <div className="max-w-[1700px] mx-auto space-y-6">
+          <div className="flex items-center justify-between pb-4 border-b border-black/10">
+            <span className="font-mono text-xs tracking-widest text-[#73736C] uppercase font-semibold">
+              PROJECT ALBUM &bull; {project.gallery.length} IMAGES
+            </span>
+          </div>
+
+          {/* Grid Layout matching reference screenshot */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5">
+            {project.gallery.map((imgUrl, i) => (
+              <div
+                key={i}
+                className="group relative cursor-pointer overflow-hidden rounded-xl bg-neutral-100 aspect-[4/3] shadow-sm hover:shadow-md transition-all duration-300"
+                onClick={() => setActiveLightboxIndex(i)}
+              >
+                <img
+                  src={imgUrl}
+                  alt={`${project.title} - Image ${i + 1}`}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                />
+                <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div className="w-11 h-11 rounded-full bg-white/95 text-black flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform">
+                    <Maximize2 className="w-5 h-5" />
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
 
@@ -164,29 +186,54 @@ export const ProjectDetailsPage: React.FC = () => {
 
       {/* Lightbox Modal */}
       <AnimatePresence>
-        {activeLightboxImg && (
+        {activeLightboxIndex !== null && project.gallery[activeLightboxIndex] && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 sm:p-10"
-            onClick={() => setActiveLightboxImg(null)}
+            onClick={() => setActiveLightboxIndex(null)}
           >
+            {/* Close Button */}
             <button
-              onClick={() => setActiveLightboxImg(null)}
-              className="absolute top-6 right-6 text-white/80 hover:text-white p-2 rounded-full bg-white/10"
+              onClick={() => setActiveLightboxIndex(null)}
+              className="absolute top-6 right-6 text-white/80 hover:text-white p-2.5 rounded-full bg-white/10 backdrop-blur-md z-20"
             >
               <X className="w-6 h-6" />
             </button>
+
+            {/* Prev Image Button */}
+            <button
+              onClick={handlePrevLightbox}
+              className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-3 rounded-full bg-white/10 backdrop-blur-md z-20 transition-all hover:scale-110"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+
+            {/* Next Image Button */}
+            <button
+              onClick={handleNextLightbox}
+              className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-3 rounded-full bg-white/10 backdrop-blur-md z-20 transition-all hover:scale-110"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+
+            {/* Active Image */}
             <motion.img
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-              src={activeLightboxImg}
-              alt={project.title}
-              className="max-h-[90vh] max-w-[90vw] object-contain rounded-md shadow-2xl"
+              key={activeLightboxIndex}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              src={project.gallery[activeLightboxIndex]}
+              alt={`${project.title} - Fullview`}
+              className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl select-none"
               onClick={(e) => e.stopPropagation()}
             />
+
+            {/* Counter */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 font-mono text-xs text-white/70 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md">
+              {activeLightboxIndex + 1} / {project.gallery.length}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
