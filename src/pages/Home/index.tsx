@@ -285,7 +285,7 @@ export const HomePage: React.FC = () => {
       {/* ========================================================================= */}
       <section className="relative w-full bg-white">
         <ScrollExpand
-          src="/photos/pchero.jpg"
+          src="/photos/image2.png"
           alt="Architectural Excellence"
           title="Built to Scale"
           titleClassName="font-city"
