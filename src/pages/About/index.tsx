@@ -299,16 +299,16 @@ export const AboutPage: React.FC = () => {
         {/* ========================================================================= */}
         <section className="w-full h-[60vh] sm:h-[75vh] relative overflow-hidden">
           <img
-            src="/photos/pcherp1.png"
+            src="/photos/image1.png"
             alt="TechPlus Architecture Villa"
             className="w-full h-full object-cover object-center"
           />
           
-          <div className="absolute bottom-12 left-6 sm:left-10 lg:left-16 right-6 text-black max-w-4xl">
-            <span className="font-mono text-xs tracking-widest text-black/70 uppercase block mb-2 font-semibold">
+          <div className="absolute bottom-12 left-6 sm:left-10 lg:left-16 right-6 text-white max-w-4xl">
+            <span className="font-mono text-xs tracking-widest text-white/70 uppercase block mb-2 font-semibold ">
               ARCHITECTURE &amp; SPATIAL EXCELLENCE
             </span>
-            <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl font-normal leading-tight text-black">
+            <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl font-normal leading-tight text-white">
               Designing timeless spaces that inspire and endure.
             </h2>
           </div>
