@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, Mail, Phone, MessageSquare, ArrowRight, MapPin, CheckCircle2 } from 'lucide-react';
 import { PageTransition } from '../../components/PageTransition/PageTransition';
 import { ContactPayload } from '../../data/projects';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { parallaxFloat, EASE } from '../../lib/gsapAnimations';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const ContactPage: React.FC = () => {
   const [formData, setFormData] = useState<ContactPayload>({
@@ -17,26 +22,61 @@ export const ContactPage: React.FC = () => {
   const [submitSuccess, setSubmitSuccess] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
+  const heroRef = useRef<HTMLDivElement>(null);
+  const heroImgRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<HTMLDivElement>(null);
+
+  // ─── Hero entrance ────────────────────────────────────────────
+  useEffect(() => {
+    if (!heroRef.current) return;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ delay: 0.25, defaults: { ease: EASE.expo } });
+      tl.fromTo('.contact-h1', { opacity: 0, y: 50, skewY: 1.5 }, { opacity: 1, y: 0, skewY: 0, duration: 1.1 }, 0)
+        .fromTo('.contact-sub', { opacity: 0, y: 28 }, { opacity: 1, y: 0, duration: 0.85 }, 0.5)
+        .fromTo('.contact-info-item', { opacity: 0, x: -20 }, { opacity: 1, x: 0, stagger: 0.12, duration: 0.7 }, 0.7)
+        .fromTo('.contact-form-card', { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.9 }, 0.6);
+
+      if (heroImgRef.current) {
+        parallaxFloat(heroImgRef.current.querySelector('img'), heroImgRef.current, -8);
+      }
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  // ─── Map section ──────────────────────────────────────────────
+  useEffect(() => {
+    if (!mapRef.current) return;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const ctx = gsap.context(() => {
+      gsap.fromTo(
+        mapRef.current,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.9,
+          ease: EASE.smooth,
+          scrollTrigger: { trigger: mapRef.current, start: 'top 85%', toggleActions: 'play none none none' },
+        }
+      );
+    });
+
+    return () => ctx.revert();
+  }, []);
+
   const validate = (): boolean => {
     const errs: Record<string, string> = {};
-
-    if (!formData.name.trim()) {
-      errs.name = 'Please enter your name';
-    }
-
+    if (!formData.name.trim()) errs.name = 'Please enter your name';
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!formData.email.trim() || !emailRegex.test(formData.email.trim())) {
-      errs.email = 'Please enter a valid email';
-    }
-
-    if (!formData.phone.trim()) {
-      errs.phone = 'Please enter your mobile number';
-    }
-
-    if (!formData.message.trim()) {
-      errs.message = 'Please enter your message';
-    }
-
+    if (!formData.email.trim() || !emailRegex.test(formData.email.trim())) errs.email = 'Please enter a valid email';
+    if (!formData.phone.trim()) errs.phone = 'Please enter your mobile number';
+    if (!formData.message.trim()) errs.message = 'Please enter your message';
     setErrors(errs);
     return Object.keys(errs).length === 0;
   };
@@ -44,10 +84,7 @@ export const ContactPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
-
-    if (!validate()) {
-      return;
-    }
+    if (!validate()) return;
 
     setIsSubmitting(true);
     try {
@@ -55,12 +92,7 @@ export const ContactPage: React.FC = () => {
       const success = await createEnquiryDB(formData);
       if (success) {
         setSubmitSuccess('Thank you! Your inquiry has been submitted successfully.');
-        setFormData({
-          name: '',
-          email: '',
-          phone: '',
-          message: '',
-        });
+        setFormData({ name: '', email: '', phone: '', message: '' });
         setErrors({});
       } else {
         throw new Error('Could not submit inquiry');
@@ -83,90 +115,91 @@ export const ContactPage: React.FC = () => {
   return (
     <PageTransition>
       <div className="bg-[#F5F4F0] text-[#141412] min-h-screen relative overflow-hidden font-sans selection:bg-black selection:text-white">
-        
-        {/* Background Architectural Villa Image */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+
+        {/* Background Villa Image */}
+        <div ref={heroImgRef} className="absolute inset-0 pointer-events-none overflow-hidden z-0">
           <img
             src="/photos/portimg.png"
             alt="TechPlus Architecture Hero"
-            className="absolute right-0 top-0 h-full w-full object-cover object-right-top opacity-90"
+            className="absolute right-0 top-0 h-full w-full object-cover object-right-top opacity-90 scale-105"
           />
-          {/* Left blend gradient */}
           <div className="absolute inset-y-0 left-0 w-full lg:w-[50%] bg-gradient-to-r from-[#F5F4F0] via-[#F5F4F0]/95 to-transparent" />
           <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#F5F4F0] to-transparent" />
         </div>
 
-        {/* Main Content Section */}
-        <section className="relative z-10 pt-32 sm:pt-40 pb-20 px-6 sm:px-10 lg:px-16 min-h-[90vh] flex items-center">
+        {/* Main Content */}
+        <section
+          ref={heroRef}
+          className="relative z-10 pt-32 sm:pt-40 pb-20 px-6 sm:px-10 lg:px-16 min-h-[90vh] flex items-center"
+        >
           <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-            
-            {/* Left Column: Heading & Contact Info */}
-            <div className="lg:col-span-6 space-y-8">
-              <div className="flex items-center gap-3">
-                <div className="h-[1px] w-12 bg-[#141412]/30" />
-              </div>
 
+            {/* Left Column */}
+            <div className="lg:col-span-6 space-y-8">
               <div>
-                <h1 className="font-display tracking-tight text-black text-5xl sm:text-7xl lg:text-8xl font-light leading-[0.98]">
+                <h1
+                  className="contact-h1 font-display tracking-tight text-black text-5xl sm:text-7xl lg:text-8xl font-light leading-[0.98]"
+                  style={{ opacity: 0 }}
+                >
                   <span className="font-city">Let's build</span><br />
-                  <span className="font-city">build</span><br />
-                  <span className="text-[#8A8980] font-light  font-city block">meaningful.</span>
+                  <span className="text-[#8A8980] font-light font-city block">meaningful.</span>
                 </h1>
               </div>
 
-              <p className="text-base sm:text-lg text-[#6E6E65] font-light max-w-md leading-relaxed">
+              <p
+                className="contact-sub text-base sm:text-lg text-[#6E6E65] font-light max-w-md leading-relaxed"
+                style={{ opacity: 0 }}
+              >
                 We'd love to hear from you. Whether you have a question about our services, a project in mind, or anything else, our team is ready to help.
               </p>
 
-              {/* Quick Contact Info */}
+              {/* Contact Info */}
               <div className="space-y-5 pt-4 text-sm">
-                <div className="flex items-start gap-4">
-                  <div className="w-9 h-9 rounded-full bg-black/5 flex items-center justify-center text-[#141412] mt-0.5 flex-shrink-0">
-                    <MapPin className="w-4 h-4" />
+                {[
+                  {
+                    icon: MapPin,
+                    label: 'Location',
+                    content: 'Munduparamba, Malappuram, Keralam 676509',
+                    href: undefined,
+                  },
+                  {
+                    icon: Mail,
+                    label: 'Email',
+                    content: 'hello@techplus.com',
+                    href: 'mailto:hello@techplus.com',
+                  },
+                  {
+                    icon: Phone,
+                    label: 'Phone',
+                    content: '+91 98470 12345',
+                    href: 'tel:+919847012345',
+                  },
+                ].map(({ icon: Icon, label, content, href }) => (
+                  <div key={label} className="contact-info-item flex items-start gap-4" style={{ opacity: 0 }}>
+                    <div className="w-9 h-9 rounded-full bg-black/5 flex items-center justify-center text-[#141412] mt-0.5 flex-shrink-0">
+                      <Icon className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-[#141412] text-sm">{label}</h3>
+                      {href ? (
+                        <a href={href} className="text-[#6E6E65] hover:text-black transition-colors text-xs sm:text-sm font-light">
+                          {content}
+                        </a>
+                      ) : (
+                        <p className="text-[#6E6E65] text-xs sm:text-sm font-light">{content}</p>
+                      )}
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-[#141412] text-sm">Location</h3>
-                    <p className="text-[#6E6E65] text-xs sm:text-sm font-light">Munduparamba, Malappuram, Keralam 676509</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-9 h-9 rounded-full bg-black/5 flex items-center justify-center text-[#141412] mt-0.5 flex-shrink-0">
-                    <Mail className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-[#141412] text-sm">Email</h3>
-                    <a
-                      href="mailto:hello@techplus.com"
-                      className="text-[#6E6E65] hover:text-black transition-colors text-xs sm:text-sm font-light"
-                    >
-                      hello@techplus.com
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="w-9 h-9 rounded-full bg-black/5 flex items-center justify-center text-[#141412] mt-0.5 flex-shrink-0">
-                    <Phone className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-[#141412] text-sm">Phone</h3>
-                    <a
-                      href="tel:+919847012345"
-                      className="text-[#6E6E65] hover:text-black transition-colors text-xs sm:text-sm font-light"
-                    >
-                      +91 98470 12345
-                    </a>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
-            {/* Right Column: Floating Form Card */}
+            {/* Right Column: Form */}
             <div className="lg:col-span-6">
-              <div className="bg-[#F5F4F0]/85 backdrop-blur-xl border border-white/80 p-8 sm:p-10 rounded-3xl shadow-2xl space-y-6">
-                
-                {/* Form Card Header */}
+              <div
+                className="contact-form-card bg-[#F5F4F0]/85 backdrop-blur-xl border border-white/80 p-8 sm:p-10 rounded-3xl shadow-2xl space-y-6"
+                style={{ opacity: 0 }}
+              >
                 <div className="flex items-center gap-3 mb-2">
                   <span className="font-mono text-xs tracking-widest text-[#73736C] uppercase font-medium">
                     SEND US A MESSAGE
@@ -186,15 +219,11 @@ export const ContactPage: React.FC = () => {
                         <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />
                         <span>{submitSuccess}</span>
                       </div>
-                      <button
-                        onClick={() => setSubmitSuccess(null)}
-                        className="text-[10px] text-neutral-300 hover:text-white underline ml-2"
-                      >
+                      <button onClick={() => setSubmitSuccess(null)} className="text-[10px] text-neutral-300 hover:text-white underline ml-2">
                         Dismiss
                       </button>
                     </motion.div>
                   )}
-
                   {errorMessage && (
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
@@ -208,11 +237,9 @@ export const ContactPage: React.FC = () => {
                 </AnimatePresence>
 
                 <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-                  {/* Name Input */}
+                  {/* Name */}
                   <div className="space-y-1.5">
-                    <label className="block text-xs font-mono tracking-wider uppercase text-[#141412] font-semibold">
-                      Name
-                    </label>
+                    <label className="block text-xs font-mono tracking-wider uppercase text-[#141412] font-semibold">Name</label>
                     <div className="relative">
                       <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8A8980]" />
                       <input
@@ -221,19 +248,15 @@ export const ContactPage: React.FC = () => {
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="John Doe"
-                        className={`w-full pl-10 pr-4 py-3 rounded-xl border ${
-                          errors.name ? 'border-red-500' : 'border-black/10'
-                        } text-black text-sm focus:outline-none focus:border-black bg-white/70 transition-all placeholder:text-[#9E9D95]`}
+                        className={`w-full pl-10 pr-4 py-3 rounded-xl border ${errors.name ? 'border-red-500' : 'border-black/10'} text-black text-sm focus:outline-none focus:border-black bg-white/70 transition-all placeholder:text-[#9E9D95]`}
                       />
                     </div>
                     {errors.name && <p className="text-[11px] text-red-600 font-mono">{errors.name}</p>}
                   </div>
 
-                  {/* Email Input */}
+                  {/* Email */}
                   <div className="space-y-1.5">
-                    <label className="block text-xs font-mono tracking-wider uppercase text-[#141412] font-semibold">
-                      Email
-                    </label>
+                    <label className="block text-xs font-mono tracking-wider uppercase text-[#141412] font-semibold">Email</label>
                     <div className="relative">
                       <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8A8980]" />
                       <input
@@ -242,19 +265,15 @@ export const ContactPage: React.FC = () => {
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         placeholder="john@example.com"
-                        className={`w-full pl-10 pr-4 py-3 rounded-xl border ${
-                          errors.email ? 'border-red-500' : 'border-black/10'
-                        } text-black text-sm focus:outline-none focus:border-black bg-white/70 transition-all placeholder:text-[#9E9D95]`}
+                        className={`w-full pl-10 pr-4 py-3 rounded-xl border ${errors.email ? 'border-red-500' : 'border-black/10'} text-black text-sm focus:outline-none focus:border-black bg-white/70 transition-all placeholder:text-[#9E9D95]`}
                       />
                     </div>
                     {errors.email && <p className="text-[11px] text-red-600 font-mono">{errors.email}</p>}
                   </div>
 
-                  {/* Mobile Number Input */}
+                  {/* Phone */}
                   <div className="space-y-1.5">
-                    <label className="block text-xs font-mono tracking-wider uppercase text-[#141412] font-semibold">
-                      Mobile Number
-                    </label>
+                    <label className="block text-xs font-mono tracking-wider uppercase text-[#141412] font-semibold">Mobile Number</label>
                     <div className="relative">
                       <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#8A8980]" />
                       <input
@@ -263,19 +282,15 @@ export const ContactPage: React.FC = () => {
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         placeholder="+91 98765 43210"
-                        className={`w-full pl-10 pr-4 py-3 rounded-xl border ${
-                          errors.phone ? 'border-red-500' : 'border-black/10'
-                        } text-black text-sm focus:outline-none focus:border-black bg-white/70 transition-all placeholder:text-[#9E9D95]`}
+                        className={`w-full pl-10 pr-4 py-3 rounded-xl border ${errors.phone ? 'border-red-500' : 'border-black/10'} text-black text-sm focus:outline-none focus:border-black bg-white/70 transition-all placeholder:text-[#9E9D95]`}
                       />
                     </div>
                     {errors.phone && <p className="text-[11px] text-red-600 font-mono">{errors.phone}</p>}
                   </div>
 
-                  {/* Message Input */}
+                  {/* Message */}
                   <div className="space-y-1.5">
-                    <label className="block text-xs font-mono tracking-wider uppercase text-[#141412] font-semibold">
-                      Message
-                    </label>
+                    <label className="block text-xs font-mono tracking-wider uppercase text-[#141412] font-semibold">Message</label>
                     <div className="relative">
                       <MessageSquare className="absolute left-3.5 top-3.5 w-4 h-4 text-[#8A8980]" />
                       <textarea
@@ -284,15 +299,13 @@ export const ContactPage: React.FC = () => {
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                         placeholder="Tell us about your project..."
-                        className={`w-full pl-10 pr-4 py-3 rounded-xl border ${
-                          errors.message ? 'border-red-500' : 'border-black/10'
-                        } text-black text-sm focus:outline-none focus:border-black bg-white/70 transition-all resize-none placeholder:text-[#9E9D95]`}
+                        className={`w-full pl-10 pr-4 py-3 rounded-xl border ${errors.message ? 'border-red-500' : 'border-black/10'} text-black text-sm focus:outline-none focus:border-black bg-white/70 transition-all resize-none placeholder:text-[#9E9D95]`}
                       />
                     </div>
                     {errors.message && <p className="text-[11px] text-red-600 font-mono">{errors.message}</p>}
                   </div>
 
-                  {/* Buttons Row */}
+                  {/* Buttons */}
                   <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <button
                       type="submit"
@@ -308,23 +321,20 @@ export const ContactPage: React.FC = () => {
                       onClick={handleWhatsAppClick}
                       className="w-full py-3.5 px-6 rounded-xl bg-white/90 border border-black/15 hover:bg-white text-black text-xs font-mono tracking-widest uppercase font-semibold transition-all shadow-sm flex items-center justify-center gap-2"
                     >
-                      {/* WhatsApp Icon */}
                       <svg className="w-4 h-4 fill-current text-[#25D366]" viewBox="0 0 24 24">
-                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+                        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
                       </svg>
                       <span>WhatsApp</span>
                     </button>
                   </div>
                 </form>
-
               </div>
             </div>
-
           </div>
         </section>
 
-        {/* Google Maps Section */}
-        <section className="relative z-10 pb-24 px-6 sm:px-10 lg:px-16 max-w-7xl mx-auto">
+        {/* Google Maps */}
+        <section ref={mapRef} className="relative z-10 pb-24 px-6 sm:px-10 lg:px-16 max-w-7xl mx-auto" style={{ opacity: 0 }}>
           <div className="bg-white/80 backdrop-blur-md border border-black/10 rounded-3xl p-4 sm:p-6 shadow-xl space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 px-2">
               <div>
@@ -347,7 +357,6 @@ export const ContactPage: React.FC = () => {
               </a>
             </div>
 
-            {/* Embedded Google Map iframe */}
             <div className="w-full h-[380px] sm:h-[450px] rounded-2xl overflow-hidden border border-black/10 relative shadow-inner bg-neutral-100">
               <iframe
                 title="Techno + Associates Location Map"
@@ -362,7 +371,6 @@ export const ContactPage: React.FC = () => {
             </div>
           </div>
         </section>
-
       </div>
     </PageTransition>
   );

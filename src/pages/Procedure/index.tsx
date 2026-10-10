@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { PageTransition } from '../../components/PageTransition/PageTransition';
 import { RevealImage } from '../../components/RevealImage/RevealImage';
 import ScrollStack, { ScrollStackItem } from '../../components/ui/ScrollStack';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { fadeUpReveal, EASE } from '../../lib/gsapAnimations';
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface StepData {
   number: string;
@@ -86,39 +91,78 @@ const STEPS: StepData[] = [
 ];
 
 export const ProcedurePage: React.FC = () => {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const stackHeaderRef = useRef<HTMLDivElement>(null);
+
+  // ─── Hero entrance ────────────────────────────────────────────
+  useEffect(() => {
+    if (!heroRef.current) return;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ delay: 0.2, defaults: { ease: EASE.expo } });
+      tl.fromTo('.proc-label', { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.7 }, 0)
+        .fromTo('.proc-h1', { opacity: 0, y: 40, skewY: 1 }, { opacity: 1, y: 0, skewY: 0, duration: 1.1 }, 0.2)
+        .fromTo('.proc-sub', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.9 }, 0.55);
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  // ─── Stack section header ─────────────────────────────────────
+  useEffect(() => {
+    if (!stackHeaderRef.current) return;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
+    const ctx = gsap.context(() => {
+      fadeUpReveal('.stack-label', stackHeaderRef.current!, { start: 'top 85%', duration: 0.7 });
+      fadeUpReveal('.stack-h2', stackHeaderRef.current!, { start: 'top 82%', delay: 0.1, y: 35, duration: 1 });
+    }, stackHeaderRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
     <PageTransition>
-      {/* ========================================================================= */}
+      {/* ================================================================= */}
       {/* HERO */}
-      {/* ========================================================================= */}
-      <section className="pt-36 sm:pt-48 pb-16 px-6 sm:px-10 lg:px-16 bg-white border-b border-black/5">
+      {/* ================================================================= */}
+      <section
+        ref={heroRef}
+        className="pt-36 sm:pt-48 pb-16 px-6 sm:px-10 lg:px-16 bg-white border-b border-black/5"
+      >
         <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-3 mb-6">
+          <div className="proc-label flex items-center gap-3 mb-6" style={{ opacity: 0 }}>
             <span className="font-mono text-xs tracking-widest text-[#9B9B90] uppercase">
               STUDIO METHODOLOGY
             </span>
             <div className="h-[1px] w-12 bg-black/15" />
           </div>
 
-          <h1 className="font-display text-5xl sm:text-7xl lg:text-8xl font-medium tracking-tighter text-[#141412] max-w-5xl">
+          <h1
+            className="proc-h1 font-display text-5xl sm:text-7xl lg:text-8xl font-medium tracking-tighter text-[#141412] max-w-5xl"
+            style={{ opacity: 0 }}
+          >
             From idea to space.
           </h1>
 
-          <p className="mt-8 text-lg sm:text-2xl text-[#484842] font-editorial max-w-3xl leading-relaxed">
+          <p className="proc-sub mt-8 text-lg sm:text-2xl text-[#484842] font-editorial max-w-3xl leading-relaxed" style={{ opacity: 0 }}>
             Our structured 5-phase procedure bridges visionary conceptual thinking with rigorous on-site construction discipline.
           </p>
         </div>
       </section>
 
-      {/* ========================================================================= */}
-      {/* FULL SCREEN SCROLL STACK PROCEDURE SECTION */}
-      {/* ========================================================================= */}
+      {/* ================================================================= */}
+      {/* SCROLL STACK */}
+      {/* ================================================================= */}
       <section className="py-16 sm:py-24 px-4 sm:px-8 lg:px-16 bg-[#F9F9F8] min-h-screen">
-        <div className="max-w-7xl mx-auto mb-12">
-          <span className="font-mono text-xs tracking-widest text-[#9B9B90] uppercase block mb-2">
+        <div ref={stackHeaderRef} className="max-w-7xl mx-auto mb-12">
+          <span className="stack-label font-mono text-xs tracking-widest text-[#9B9B90] uppercase block mb-2" style={{ opacity: 0 }}>
             STACKED TIMELINE EXPERIENCE
           </span>
-          <h2 className="font-display text-4xl sm:text-6xl font-medium text-[#141412]">
+          <h2 className="stack-h2 font-display text-4xl sm:text-6xl font-medium text-[#141412]" style={{ opacity: 0 }}>
             5-Phase Architectural Journey
           </h2>
         </div>

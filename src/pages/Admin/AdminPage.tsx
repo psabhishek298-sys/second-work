@@ -5,22 +5,16 @@ import {
   fetchTestimonialsDB, createTestimonialDB, updateTestimonialDB, deleteTestimonialDB, TestimonialItem,
   fetchClientLogosDB, createClientLogoDB, updateClientLogoDB, deleteClientLogoDB, ClientLogoItem,
   fetchEnquiriesDB, updateEnquiryStatusDB, deleteEnquiryDB, EnquiryItem,
+  fetchCategoriesDB, createCategoryDB, updateCategoryDB, deleteCategoryDB, CategoryItem,
   uploadImage
 } from '../../services/adminService';
 import { Project } from '../../data/projects';
 import {
-  FolderKanban, MessageSquareQuote, Image as ImageIcon, Inbox, LogOut, Plus, Trash2, Edit2, X, ShieldCheck, Lock, Mail, RefreshCw, Upload
+  FolderKanban, MessageSquareQuote, Image as ImageIcon, Inbox, LogOut, Plus, Trash2, Edit2, X, ShieldCheck, Lock, Mail, RefreshCw, Upload, Layers
 } from 'lucide-react';
 import './Admin.css';
 
-const CATEGORIES = [
-  'Residential',
-  'Commercial',
-  'Architecture',
-  'Interior Architecture',
-  'Landscape',
-  'Hospitality'
-];
+const STATIC_CATEGORIES = ['Residential', 'Commercial', 'Hospitality', 'Interiors', 'Landscape'];
 
 export const AdminPage: React.FC = () => {
   const [session, setSession] = useState<any>(null);
@@ -30,10 +24,11 @@ export const AdminPage: React.FC = () => {
   const [loginError, setLoginError] = useState('');
 
   // Active tab state
-  const [activeTab, setActiveTab] = useState<'projects' | 'testimonials' | 'logos' | 'enquiries'>('projects');
+  const [activeTab, setActiveTab] = useState<'projects' | 'categories' | 'testimonials' | 'logos' | 'enquiries'>('projects');
 
   // Data states
   const [projects, setProjects] = useState<Project[]>([]);
+  const [categories, setCategories] = useState<CategoryItem[]>([]);
   const [testimonials, setTestimonials] = useState<TestimonialItem[]>([]);
   const [logos, setLogos] = useState<ClientLogoItem[]>([]);
   const [enquiries, setEnquiries] = useState<EnquiryItem[]>([]);
@@ -55,6 +50,13 @@ export const AdminPage: React.FC = () => {
     gallery: []
   });
   const [uploadingImage, setUploadingImage] = useState(false);
+
+  // Category Modal
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [editingCategory, setEditingCategory] = useState<CategoryItem | null>(null);
+  const [categoryForm, setCategoryForm] = useState<Partial<CategoryItem>>({
+    name: '', slug: '', description: ''
+  });
 
   // Testimonial Modal
   const [isTestimonialModalOpen, setIsTestimonialModalOpen] = useState(false);
@@ -95,8 +97,12 @@ export const AdminPage: React.FC = () => {
   const loadData = async () => {
     setDataLoading(true);
     if (activeTab === 'projects') {
-      const res = await fetchProjectsDB();
-      setProjects(res);
+      const [projRes, catRes] = await Promise.all([fetchProjectsDB(), fetchCategoriesDB()]);
+      setProjects(projRes);
+      setCategories(catRes);
+    } else if (activeTab === 'categories') {
+      const res = await fetchCategoriesDB();
+      setCategories(res);
     } else if (activeTab === 'testimonials') {
       const res = await fetchTestimonialsDB();
       setTestimonials(res);
@@ -183,6 +189,38 @@ export const AdminPage: React.FC = () => {
       }
     }
     setUploadingImage(false);
+  };
+
+  // CATEGORY HANDLERS
+  const handleSaveCategory = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!categoryForm.name?.trim()) {
+      alert('Category name is required');
+      return;
+    }
+    const slug = categoryForm.slug?.trim() ||
+      categoryForm.name.trim().toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+    const payload = { name: categoryForm.name.trim(), slug, description: categoryForm.description?.trim() || '' };
+
+    try {
+      if (editingCategory) {
+        await updateCategoryDB(editingCategory.id, payload);
+      } else {
+        await createCategoryDB(payload as Omit<CategoryItem, 'id'>);
+      }
+      setIsCategoryModalOpen(false);
+      setEditingCategory(null);
+      loadData();
+    } catch (err) {
+      alert('Failed to save category. Please try again.');
+    }
+  };
+
+  const handleDeleteCategory = async (id: string) => {
+    if (confirm('Delete this category? Projects using it won\'t be affected.')) {
+      await deleteCategoryDB(id);
+      loadData();
+    }
   };
 
   // TESTIMONIAL HANDLERS
@@ -302,6 +340,14 @@ export const AdminPage: React.FC = () => {
             <span>Portfolio Projects</span>
           </button>
           <button
+            className={`ios-nav-item ${activeTab === 'categories' ? 'active' : ''}`}
+            onClick={() => setActiveTab('categories')}
+          >
+            <Layers size={18} />
+            <span>Categories</span>
+            <span className="ios-pill" style={{ background: '#3a3a3c' }}>{categories.length}</span>
+          </button>
+          <button
             className={`ios-nav-item ${activeTab === 'testimonials' ? 'active' : ''}`}
             onClick={() => setActiveTab('testimonials')}
           >
@@ -341,6 +387,7 @@ export const AdminPage: React.FC = () => {
           <div>
             <h1>
               {activeTab === 'projects' && 'Portfolio & Projects'}
+              {activeTab === 'categories' && 'Project Categories'}
               {activeTab === 'testimonials' && 'Client Testimonials'}
               {activeTab === 'logos' && 'Client Logos'}
               {activeTab === 'enquiries' && 'Contact Enquiries'}
@@ -362,6 +409,15 @@ export const AdminPage: React.FC = () => {
                 setIsProjectModalOpen(true);
               }} className="ios-btn-primary">
                 <Plus size={16} /> Add Project
+              </button>
+            )}
+            {activeTab === 'categories' && (
+              <button onClick={() => {
+                setEditingCategory(null);
+                setCategoryForm({ name: '', slug: '', description: '' });
+                setIsCategoryModalOpen(true);
+              }} className="ios-btn-primary">
+                <Plus size={16} /> Add Category
               </button>
             )}
             {activeTab === 'testimonials' && (
@@ -386,6 +442,40 @@ export const AdminPage: React.FC = () => {
         </header>
 
         {/* TAB 1: PROJECTS */}
+        {/* TAB: CATEGORIES */}
+        {activeTab === 'categories' && (
+          <div className="ios-list">
+            {categories.length === 0 ? (
+              <div className="ios-empty">No categories yet. Click "Add Category" to create one.</div>
+            ) : (
+              categories.map(cat => (
+                <div key={cat.id} className="ios-list-item">
+                  <div className="ios-avatar" style={{ background: 'linear-gradient(135deg,#1a1a1a,#333)', color: '#fff', fontWeight: 700, fontSize: 16 }}>
+                    <Layers size={18} />
+                  </div>
+                  <div className="ios-list-content">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                      <h4 style={{ margin: 0 }}>{cat.name}</h4>
+                      <span style={{ fontSize: 11, background: '#f0f0f0', color: '#555', borderRadius: 4, padding: '2px 8px', fontFamily: 'monospace' }}>/{cat.slug}</span>
+                    </div>
+                    {cat.description && (
+                      <p style={{ marginTop: 4, fontSize: 13, color: '#666', lineHeight: 1.5 }}>{cat.description}</p>
+                    )}
+                  </div>
+                  <div className="ios-list-actions">
+                    <button onClick={() => {
+                      setEditingCategory(cat);
+                      setCategoryForm({ name: cat.name, slug: cat.slug, description: cat.description });
+                      setIsCategoryModalOpen(true);
+                    }} className="ios-btn-icon"><Edit2 size={15} /></button>
+                    <button onClick={() => handleDeleteCategory(cat.id)} className="ios-btn-icon text-red"><Trash2 size={15} /></button>
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        )}
+
         {activeTab === 'projects' && (
           <div className="ios-grid">
             {projects.length === 0 ? (
@@ -424,12 +514,16 @@ export const AdminPage: React.FC = () => {
             ) : (
               testimonials.map(item => (
                 <div key={item.id} className="ios-list-item">
-                  <div className="ios-avatar">
-                    {item.avatar ? <img src={item.avatar} alt={item.name} /> : item.name.charAt(0)}
+                  <div className="ios-avatar" style={{ background: '#1a1a18', color: '#fff', fontWeight: 600, fontFamily: 'monospace' }}>
+                    {item.name.charAt(0)}
                   </div>
                   <div className="ios-list-content">
-                    <h4>{item.name} <span className="ios-sub">({item.role || item.location})</span></h4>
-                    <p>"{item.quote}"</p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                      <h4 style={{ margin: 0 }}>{item.name}</h4>
+                      <span className="ios-sub" style={{ fontSize: '12px', color: '#888' }}>({item.role || item.location || 'Google Review'})</span>
+                      <span style={{ color: '#F4B400', fontSize: '13px', letterSpacing: '1px' }}>★★★★★</span>
+                    </div>
+                    <p style={{ marginTop: '4px', fontSize: '13px', lineHeight: 1.5, color: '#444' }}>"{item.quote}"</p>
                   </div>
                   <div className="ios-list-actions">
                     <button onClick={() => {
@@ -579,7 +673,7 @@ export const AdminPage: React.FC = () => {
                         value={projectForm.category || 'Residential'}
                         onChange={e => setProjectForm({ ...projectForm, category: e.target.value })}
                       >
-                        {CATEGORIES.map(cat => (
+                        {(categories.length > 0 ? categories.map(c => c.name) : STATIC_CATEGORIES).map(cat => (
                           <option key={cat} value={cat}>{cat}</option>
                         ))}
                       </select>
@@ -685,6 +779,58 @@ export const AdminPage: React.FC = () => {
               <div className="ios-modal-footer">
                 <button type="button" onClick={() => setIsTestimonialModalOpen(false)} className="ios-btn-secondary">Cancel</button>
                 <button type="submit" className="ios-btn-primary">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* CATEGORY MODAL */}
+      {isCategoryModalOpen && (
+        <div className="ios-modal-overlay">
+          <div className="ios-modal" style={{ maxWidth: '480px' }}>
+            <div className="ios-modal-header">
+              <h2>{editingCategory ? 'Edit Category' : 'New Category'}</h2>
+              <button onClick={() => setIsCategoryModalOpen(false)} className="ios-btn-icon"><X size={18} /></button>
+            </div>
+            <form onSubmit={handleSaveCategory} className="ios-modal-form">
+              <div className="ios-input-group">
+                <label>Category Name *</label>
+                <input
+                  type="text"
+                  required
+                  value={categoryForm.name || ''}
+                  onChange={e => {
+                    const name = e.target.value;
+                    const autoSlug = name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+                    setCategoryForm({ ...categoryForm, name, slug: autoSlug });
+                  }}
+                  placeholder="e.g. Residential"
+                />
+              </div>
+              <div className="ios-input-group">
+                <label>Slug (URL identifier)</label>
+                <input
+                  type="text"
+                  value={categoryForm.slug || ''}
+                  onChange={e => setCategoryForm({ ...categoryForm, slug: e.target.value })}
+                  placeholder="e.g. residential"
+                  style={{ fontFamily: 'monospace', fontSize: 13 }}
+                />
+                <small style={{ color: '#888', fontSize: 11, marginTop: 4, display: 'block' }}>Auto-generated from name. Used in URLs for filtering.</small>
+              </div>
+              <div className="ios-input-group">
+                <label>Description</label>
+                <textarea
+                  rows={3}
+                  value={categoryForm.description || ''}
+                  onChange={e => setCategoryForm({ ...categoryForm, description: e.target.value })}
+                  placeholder="Short description shown in portfolio filters..."
+                />
+              </div>
+              <div className="ios-modal-footer">
+                <button type="button" onClick={() => setIsCategoryModalOpen(false)} className="ios-btn-secondary">Cancel</button>
+                <button type="submit" className="ios-btn-primary">{editingCategory ? 'Update Category' : 'Create Category'}</button>
               </div>
             </form>
           </div>

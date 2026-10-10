@@ -1,69 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { Star } from 'lucide-react';
 import { TestimonialsColumn, TestimonialItem } from '../ui/testimonials-columns-1';
-
-const testimonials: TestimonialItem[] = [
-  {
-    text: "TechPlus transformed our coastal property into an architectural masterpiece. The way daylight and natural sea breezes flow through the courtyard is breathtaking.",
-    image: "/photos/imgi_10_project3.jpg",
-    name: "Dr. Arvind Menon",
-    role: "Private Villa Owner, Kochi",
-  },
-  {
-    text: "Their material honesty and structural precision are unparalleled. From raw rammed earth to handcrafted timber joints, the execution was flawless.",
-    image: "/photos/imgi_11_project4.jpg",
-    name: "Vikram Singhania",
-    role: "Managing Director, Nexus Spaces",
-  },
-  {
-    text: "Building our boutique resort with TechPlus was a seamless experience. They preserved every ancient tree on site and created an ecologically sustainable sanctuary.",
-    image: "/photos/imgi_14_project7.jpg",
-    name: "Radhika Sharma",
-    role: "Founder, Auralis Retreats Goa",
-  },
-  {
-    text: "The 5-phase procedure gave us total clarity on cost, timelines, and material sourcing. Truly an international standard architectural atelier.",
-    image: "/photos/imgi_2_baner9.jpg",
-    name: "Rohit & Priya Nair",
-    role: "Homeowners, Bangalore",
-  },
-  {
-    text: "TechPlus designed our corporate headquarters with passive ventilation and acoustic serenity that boosted our team’s daily productivity and well-being.",
-    image: "/photos/imgi_3_baner10.jpg",
-    name: "Ananya Deshmukh",
-    role: "Chief Executive, Element Labs",
-  },
-  {
-    text: "Every space feels intimate yet expansive. Their minimalist philosophy paired with tropical climate adaptability is pure genius.",
-    image: "/photos/imgi_4_baner1.jpg",
-    name: "Siddharth Verma",
-    role: "Creative Director, Studio 9",
-  },
-  {
-    text: "The attention to tactile materiality—exposed concrete, black basalt, and natural stone—elevated our residence far beyond our highest expectations.",
-    image: "/photos/imgi_4_project1.jpg",
-    name: "Meera Krishnan",
-    role: "Art Collector & Curator",
-  },
-  {
-    text: "From concept sketch to handing over the keys, the discipline and design integrity TechPlus maintained was remarkable.",
-    image: "/photos/imgi_5_baner5.jpg",
-    name: "Karthik Nambiar",
-    role: "Urban Developer, Calicut",
-  },
-  {
-    text: "Our pavilion has won multiple regional architectural awards thanks to TechPlus’s visionary spatial balance and tectonic detailing.",
-    image: "/photos/imgi_6_baner6.jpg",
-    name: "Farhan Siddiqui",
-    role: "Director, Horizon Hospitality",
-  },
-];
-
-const firstColumn = testimonials.slice(0, 3);
-const secondColumn = testimonials.slice(3, 6);
-const thirdColumn = testimonials.slice(6, 9);
+import { fetchTestimonialsDB } from '../../services/adminService';
+import { GOOGLE_TESTIMONIALS } from '../../data/testimonials';
 
 export const Testimonials: React.FC = () => {
+  const [items, setItems] = useState<TestimonialItem[]>(GOOGLE_TESTIMONIALS);
+
+  useEffect(() => {
+    fetchTestimonialsDB().then((data) => {
+      if (data && data.length > 0) {
+        setItems(data);
+      }
+    });
+  }, []);
+
+  const count = items.length;
+  const colSize = Math.ceil(count / 3);
+  const firstColumn = items.slice(0, colSize);
+  const secondColumn = items.slice(colSize, colSize * 2);
+  const thirdColumn = items.slice(colSize * 2);
+
   return (
     <section className="bg-white py-24 sm:py-32 border-t border-black/5 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
@@ -74,10 +32,36 @@ export const Testimonials: React.FC = () => {
           viewport={{ once: true }}
           className="flex flex-col items-center justify-center max-w-2xl mx-auto text-center mb-16"
         >
-          <div className="inline-flex items-center gap-2 border border-black/10 py-1.5 px-4 rounded-full bg-neutral-50 mb-5 shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-black" />
-            <span className="font-mono text-xs tracking-widest text-[#9B9B90] uppercase font-semibold">
-              CLIENT TESTIMONIALS
+          {/* Google rating header pill */}
+          <div className="inline-flex items-center gap-2.5 border border-black/10 py-1.5 px-4 rounded-full bg-neutral-50 mb-5 shadow-sm">
+            <svg className="w-3.5 h-3.5" viewBox="0 0 24 24">
+              <path
+                fill="#4285F4"
+                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+              />
+              <path
+                fill="#34A853"
+                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+              />
+              <path
+                fill="#EA4335"
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+              />
+            </svg>
+            <div className="flex items-center gap-1">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} size={12} className="fill-[#F4B400] text-[#F4B400]" />
+              ))}
+            </div>
+            <span className="font-mono text-xs font-semibold text-[#141412]">
+              4.8 / 5.0
+            </span>
+            <span className="text-xs text-[#9B9B90]">
+              • 12 Google Reviews
             </span>
           </div>
 
@@ -85,15 +69,15 @@ export const Testimonials: React.FC = () => {
             What our clients say
           </h2>
           <p className="mt-4 text-sm sm:text-base text-[#6E6E65] font-light max-w-lg leading-relaxed">
-            Experiences from homeowners, developers, and founders who have built their spatial vision with TechPlus.
+            Real feedback and experiences from homeowners and clients who designed their spaces with Techno + Associates.
           </p>
         </motion.div>
 
         {/* Continuous Smooth Infinite Scroll Columns with Gradient Mask */}
         <div className="flex justify-center gap-6 [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)] max-h-[680px] overflow-hidden">
-          <TestimonialsColumn testimonials={firstColumn} duration={22} />
+          <TestimonialsColumn testimonials={firstColumn} duration={24} />
           <TestimonialsColumn testimonials={secondColumn} className="hidden md:block" duration={28} />
-          <TestimonialsColumn testimonials={thirdColumn} className="hidden lg:block" duration={25} />
+          <TestimonialsColumn testimonials={thirdColumn} className="hidden lg:block" duration={26} />
         </div>
       </div>
     </section>

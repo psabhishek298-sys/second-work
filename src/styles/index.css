@@ -62,6 +62,12 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #999999;
   }
+
+  /* Global text selection */
+  ::selection {
+    background: #141412;
+    color: #ffffff;
+  }
 }
 
 /* Featured Header Font Utility (.font-city) */
@@ -91,5 +97,37 @@
   font-family: 'Space Mono', monospace;
 }
 
+/* ─── Reduced Motion ─────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 
+/* ─── Scrollbar hide utility ─────────────────────────────────── */
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 
+/* ─── Link underline micro-animation ─────────────────────────── */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: currentColor;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.link-underline:hover::after {
+  width: 100%;
+}

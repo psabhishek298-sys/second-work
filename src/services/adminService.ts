@@ -1,16 +1,8 @@
 import { supabase } from '../lib/supabase';
 import { Project, ContactPayload } from '../data/projects';
+import { GOOGLE_TESTIMONIALS, TestimonialData } from '../data/testimonials';
 
-export interface TestimonialItem {
-  id: string;
-  created_at?: string;
-  name: string;
-  role?: string;
-  location?: string;
-  quote: string;
-  avatar?: string;
-  rating?: number;
-}
+export type TestimonialItem = TestimonialData;
 
 export interface ClientLogoItem {
   id: string;
@@ -147,9 +139,15 @@ export async function deleteProjectDB(id: string): Promise<boolean> {
 
 // TESTIMONIALS CRUD
 export async function fetchTestimonialsDB(): Promise<TestimonialItem[]> {
-  const { data, error } = await supabase.from('testimonials').select('*').order('created_at', { ascending: false });
-  if (error || !data) return [];
-  return data;
+  try {
+    const { data, error } = await supabase.from('testimonials').select('*').order('created_at', { ascending: false });
+    if (error || !data || data.length === 0) {
+      return [...GOOGLE_TESTIMONIALS];
+    }
+    return data;
+  } catch {
+    return [...GOOGLE_TESTIMONIALS];
+  }
 }
 
 export async function createTestimonialDB(item: Omit<TestimonialItem, 'id'>): Promise<TestimonialItem | null> {
@@ -233,3 +231,97 @@ export async function deleteEnquiryDB(id: string): Promise<boolean> {
   const { error } = await supabase.from('contact_enquiries').delete().eq('id', id);
   return !error;
 }
+
+// CATEGORIES CRUD
+import { DEFAULT_CATEGORIES, Category as CategoryType } from '../data/categories';
+
+export type CategoryItem = CategoryType;
+
+const CATEGORIES_STORAGE_KEY = 'techplus_categories';
+
+export async function fetchCategoriesDB(): Promise<CategoryItem[]> {
+  try {
+    const { data, error } = await supabase.from('categories').select('*').order('name', { ascending: true });
+    if (!error && data && data.length > 0) {
+      return data;
+    }
+  } catch {
+    // fallback to storage
+  }
+
+  try {
+    const local = localStorage.getItem(CATEGORIES_STORAGE_KEY);
+    if (local) {
+      const parsed = JSON.parse(local);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
+    }
+  } catch {
+    // fallback to default
+  }
+
+  return [...DEFAULT_CATEGORIES];
+}
+
+export async function createCategoryDB(item: Omit<CategoryItem, 'id'>): Promise<CategoryItem> {
+  const newCat: CategoryItem = {
+    id: 'cat-' + Date.now(),
+    name: item.name,
+    slug: item.slug || item.name.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+    description: item.description || ''
+  };
+
+  try {
+    const { data, error } = await supabase.from('categories').insert([newCat]).select().single();
+    if (!error && data) {
+      return data;
+    }
+  } catch {
+    // ignore
+  }
+
+  const current = await fetchCategoriesDB();
+  const updated = [...current, newCat];
+  try {
+    localStorage.setItem(CATEGORIES_STORAGE_KEY, JSON.stringify(updated));
+  } catch {
+    // ignore
+  }
+  return newCat;
+}
+
+export async function updateCategoryDB(id: string, item: Partial<CategoryItem>): Promise<boolean> {
+  try {
+    await supabase.from('categories').update(item).eq('id', id);
+  } catch {
+    // ignore
+  }
+
+  try {
+    const current = await fetchCategoriesDB();
+    const updated = current.map(c => c.id === id ? { ...c, ...item } : c);
+    localStorage.setItem(CATEGORIES_STORAGE_KEY, JSON.stringify(updated));
+  } catch {
+    // ignore
+  }
+  return true;
+}
+
+export async function deleteCategoryDB(id: string): Promise<boolean> {
+  try {
+    await supabase.from('categories').delete().eq('id', id);
+  } catch {
+    // ignore
+  }
+
+  try {
+    const current = await fetchCategoriesDB();
+    const updated = current.filter(c => c.id !== id);
+    localStorage.setItem(CATEGORIES_STORAGE_KEY, JSON.stringify(updated));
+  } catch {
+    // ignore
+  }
+  return true;
+}
+

@@ -1,14 +1,5 @@
 import { Project, Category, ContactPayload, FALLBACK_PROJECTS } from '../data/projects';
-import { fetchProjectsDB, createEnquiryDB } from './adminService';
-
-export const CATEGORIES: Category[] = [
-  { id: 'cat-all', name: 'All Works', slug: 'all', description: 'Comprehensive catalog of spatial interventions.', count: 8 },
-  { id: 'cat-res', name: 'Residential', slug: 'residential', description: 'Bespoke homes, private villas and retreats.', count: 2 },
-  { id: 'cat-com', name: 'Commercial', slug: 'commercial', description: 'Workplaces, civic pavilions and studios.', count: 2 },
-  { id: 'cat-hos', name: 'Hospitality', slug: 'hospitality', description: 'Luxury resorts, boutique hotels and spas.', count: 2 },
-  { id: 'cat-int', name: 'Interiors', slug: 'interiors', description: 'Curated architectural interior spaces.', count: 1 },
-  { id: 'cat-lan', name: 'Landscape', slug: 'landscape', description: 'Biophilic terrains, courtyards and gardens.', count: 1 },
-];
+import { fetchProjectsDB, createEnquiryDB, fetchCategoriesDB } from './adminService';
 
 export const api = {
   async getProjects(category?: string, featured?: boolean): Promise<Project[]> {
@@ -17,7 +8,7 @@ export const api = {
       let list = dbProjects.length > 0 ? dbProjects : [...FALLBACK_PROJECTS];
       
       if (category && category.toLowerCase() !== 'all') {
-        list = list.filter((p) => p.category.toLowerCase() === category.toLowerCase());
+        list = list.filter((p) => p.category.toLowerCase() === category.toLowerCase() || p.category.toLowerCase().replace(/[^a-z0-9]/g, '') === category.toLowerCase().replace(/[^a-z0-9]/g, ''));
       }
       if (featured !== undefined) {
         list = list.filter((p) => p.featured === featured);
@@ -41,7 +32,30 @@ export const api = {
   },
 
   async getCategories(): Promise<Category[]> {
-    return CATEGORIES;
+    try {
+      const [cats, projs] = await Promise.all([fetchCategoriesDB(), this.getProjects()]);
+      return cats.map((cat) => {
+        let count = 0;
+        if (cat.slug === 'all') {
+          count = projs.length;
+        } else {
+          count = projs.filter(
+            (p) => p.category.toLowerCase() === cat.name.toLowerCase() ||
+                   p.category.toLowerCase() === cat.slug.toLowerCase() ||
+                   p.category.toLowerCase().replace(/[^a-z0-9]/g, '') === cat.slug.toLowerCase().replace(/[^a-z0-9]/g, '')
+          ).length;
+        }
+        return {
+          id: cat.id,
+          name: cat.name,
+          slug: cat.slug,
+          description: cat.description || '',
+          count
+        };
+      });
+    } catch {
+      return [];
+    }
   },
 
   async sendContact(data: ContactPayload): Promise<{ success: boolean; message: string; data?: any }> {
